@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { supabase } from './libs/supabase'
+import { supabase } from '../libs/supabase'
 import './App.css'
 
 function App() {
