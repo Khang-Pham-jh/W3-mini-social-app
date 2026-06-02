@@ -1,6 +1,6 @@
 export const positions = [
-  'FE Developer',
-  'BE Developer',
+  'FE developer',
+  'BE developer',
   'Fullstack',
   'Designers',
   'Admin',

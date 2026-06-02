@@ -1,90 +1,108 @@
-import { useState } from 'react';
+import React, { Component } from 'react';
+import { FORM_ERROR } from 'final-form';
+import { Field, Form } from 'react-final-form';
+import { AuthContext } from '../context/AuthContext';
+import { validateLoginForm } from '../../../shared/utils/validation';
 import styles from './LoginForm.module.css';
-import { Link } from 'react-router-dom';
-import { createLoginErrors, validateLoginForm } from '../../../shared/utils/validation';
 
-function LoginForm() {
-  const [loginFormData, setLoginFormData] = useState({
-    email: '',
-    password: '',
-  });
-  const [loginErrors, setLoginErrors] = useState(createLoginErrors);
+const initialLoginValues = {
+  email: '',
+  password: '',
+};
 
-  function handleInputChange(event) {
-    const { name, value } = event.target;
+class LoginForm extends Component {
+  static contextType = AuthContext;
 
-    setLoginFormData((previousFormData) => ({
-      ...previousFormData,
-      [name]: value,
-    }));
+  validate = (values) => {
+    return validateLoginForm(values);
+  };
 
-    setLoginErrors((previousErrors) => ({
-      ...previousErrors,
-      [name]: '',
-      form: '',
-    }));
-  }
+  handleSubmit = async (values) => {
+    const { login } = this.context;
+    const loginResult = await login(values);
 
-  function handleLoginSubmit(event) {
-    event.preventDefault();
-
-    const validationResult = validateLoginForm(loginFormData);
-
-    if (!validationResult.isValid) {
-      setLoginErrors(validationResult.errors);
-      return;
+    if (!loginResult.success) {
+      return {
+        email: loginResult.errors?.email,
+        [FORM_ERROR]: loginResult.errors?.form,
+      };
     }
 
-    setLoginErrors(createLoginErrors());
+    this.props.navigate('/home', { replace: true });
+    return undefined;
+  };
+
+  renderTextField = ({ input, meta, label, type, placeholder }) => {
+    const fieldError = meta.touched ? meta.error || meta.submitError : '';
+
+    return (
+      <div className={styles.fieldGroup}>
+        <label className={styles.fieldLabel} htmlFor={input.name}>
+          {label}
+        </label>
+        <input
+          {...input}
+          id={input.name}
+          className={styles.textInput}
+          type={type}
+          placeholder={placeholder}
+          aria-invalid={Boolean(fieldError)}
+        />
+        <p className={styles.fieldError}>{fieldError}</p>
+      </div>
+    );
+  };
+
+  render() {
+    return (
+      <Form
+        initialValues={initialLoginValues}
+        onSubmit={this.handleSubmit}
+        validate={this.validate}
+        render={({ handleSubmit, submitError, submitting }) => (
+          <form className={styles.authForm} noValidate onSubmit={handleSubmit}>
+            <p className={styles.formTitle}>Log in</p>
+
+            <Field name="email">
+              {({ input, meta }) =>
+                this.renderTextField({
+                  input,
+                  meta,
+                  label: 'Email',
+                  type: 'email',
+                  placeholder: 'Enter your email',
+                })
+              }
+            </Field>
+
+            <Field name="password">
+              {({ input, meta }) =>
+                this.renderTextField({
+                  input,
+                  meta,
+                  label: 'Password',
+                  type: 'password',
+                  placeholder: 'Enter your password',
+                })
+              }
+            </Field>
+            <div className={styles.formFooter}>
+              <p className={styles.formError}>{submitError}</p>
+            </div>
+
+            <button className={styles.submitButton} type="submit" disabled={submitting}>
+              {submitting ? 'Logging in...' : 'Log in'}
+            </button>
+
+            <p className={styles.formFooterText}>
+              Don't have an account? <a href="/signup">Sign up</a>
+            </p>
+          </form>
+          
+        )}
+      />
+    );
   }
-
-  return (
-    <div className={styles.loginFormContainer}>
-      <form className={styles.authForm} noValidate onSubmit={handleLoginSubmit}>
-        <p className={styles.formTitle}>Log in</p>
-        <div className={styles.fieldGroup}>
-          <label className={styles.fieldLabel} htmlFor="login-email">
-            Email
-          </label>
-          <input
-            id="login-email"
-            name="email"
-            className={styles.textInput}
-            type="email"
-            placeholder="Enter your email"
-            value={loginFormData.email}
-            onChange={handleInputChange}
-            aria-invalid={Boolean(loginErrors.email)}
-          />
-          <p className={styles.fieldError}>{loginErrors.email}</p>
-        </div>
-
-        <div className={styles.fieldGroup}>
-          <label className={styles.fieldLabel} htmlFor="login-password">
-            Password
-          </label>
-          <input
-            id="login-password"
-            name="password"
-            className={styles.textInput}
-            type="password"
-            placeholder="Enter your password"
-            value={loginFormData.password}
-            onChange={handleInputChange}
-            aria-invalid={Boolean(loginErrors.password)}
-          />
-          <p className={styles.fieldError}>{loginErrors.password}</p>
-        </div>
-        
-
-        <button className={styles.submitButton} type="submit">
-          Log in
-        </button>
-      </form>
-        <div className={styles.formError}>{loginErrors.form}</div>
-      <p className={styles.formSignupNavigation}>Don't have an account? <Link to="/signup">Sign up</Link></p>
-
-    </div>
-  );
 }
+
 export default LoginForm;

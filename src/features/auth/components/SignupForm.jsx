@@ -1,158 +1,231 @@
-import { useState } from 'react';
+import React, { Component } from 'react';
+import { FORM_ERROR } from 'final-form';
+import { Field, Form } from 'react-final-form';
+import { AuthContext } from '../context/AuthContext';
 import { positions } from '../constants/positions';
+import { validateSignupForm } from '../../../shared/utils/validation';
 import styles from './SignupForm.module.css';
-import { Link } from 'react-router-dom';
-import { createSignupErrors, validateSignupForm } from '../../../shared/utils/validation';
 
-const initialSignupFormData = {
+const initialSignupValues = {
   name: '',
   email: '',
   password: '',
-  confirmPassword: '',
-  position: '',
+  positions: [],
 };
 
-function SignupForm() {
-  const [signupFormData, setSignupFormData] = useState(initialSignupFormData);
-  const [signupErrors, setSignupErrors] = useState(createSignupErrors);
+class SignupForm extends Component {
+  static contextType = AuthContext;
 
-  function handleInputChange(event) {
-    const { name, value } = event.target;
+  constructor(props) {
+    super(props);
 
-    setSignupFormData((previousFormData) => ({
-      ...previousFormData,
-      [name]: value,
-    }));
-
-    setSignupErrors((previousErrors) => ({
-      ...previousErrors,
-      [name]: '',
-      form: '',
-    }));
+    this.positionDropdownRef = React.createRef();
+    this.state = {
+      isPositionDropdownOpen: false,
+    };
   }
 
-  function handleSignupSubmit(event) {
-    event.preventDefault();
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleDocumentMouseDown);
+    document.addEventListener('keydown', this.handleDocumentKeyDown);
+  }
 
-    const validationResult = validateSignupForm(signupFormData);
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleDocumentMouseDown);
+    document.removeEventListener('keydown', this.handleDocumentKeyDown);
+  }
 
-    if (!validationResult.isValid) {
-      setSignupErrors(validationResult.errors);
+  validate = (values) => {
+    return validateSignupForm(values);
+  };
+
+  handleSubmit = async (values) => {
+    const { signup } = this.context;
+    const signupResult = await signup(values);
+
+    if (!signupResult.success) {
+      return {
+        email: signupResult.errors?.email,
+        password: signupResult.errors?.password,
+        [FORM_ERROR]: signupResult.errors?.form,
+      };
+    }
+
+    this.props.navigate('/home', { replace: true });
+    return undefined;
+  };
+
+  togglePositionDropdown = () => {
+    this.setState((previousState) => ({
+      isPositionDropdownOpen: !previousState.isPositionDropdownOpen,
+    }));
+  };
+
+  handleDocumentMouseDown = (event) => {
+    if (!this.state.isPositionDropdownOpen) {
       return;
     }
 
-    setSignupErrors(createSignupErrors());
-  }
+    if (!this.positionDropdownRef.current?.contains(event.target)) {
+      this.setState({
+        isPositionDropdownOpen: false,
+      });
+    }
+  };
 
-  return (
-    <div className={styles.signupFormContainer}>
-      <form className={styles.authForm} noValidate onSubmit={handleSignupSubmit}>
-        <p className={styles.formTitle}>Sign up</p>
+  handleDocumentKeyDown = (event) => {
+    if (event.key !== 'Escape' || !this.state.isPositionDropdownOpen) {
+      return;
+    }
 
-        <div className={styles.fieldGroup}>
-          <label className={styles.fieldLabel} htmlFor="signup-name">
-            Name
-          </label>
-          <input
-            id="signup-name"
-            name="name"
-            className={styles.textInput}
-            type="text"
-            placeholder="Enter your name"
-            value={signupFormData.name}
-            onChange={handleInputChange}
-            aria-invalid={Boolean(signupErrors.name)}
-          />
-          <p className={styles.fieldError}>{signupErrors.name}</p>
-        </div>
+    this.setState({
+      isPositionDropdownOpen: false,
+    });
+  };
 
-        <div className={styles.fieldGroup}>
-          <label className={styles.fieldLabel} htmlFor="signup-email">
-            Email
-          </label>
-          <input
-            id="signup-email"
-            name="email"
-            className={styles.textInput}
-            type="email"
-            placeholder="Enter your email"
-            value={signupFormData.email}
-            onChange={handleInputChange}
-            aria-invalid={Boolean(signupErrors.email)}
-          />
-          <p className={styles.fieldError}>{signupErrors.email}</p>
-        </div>
+  renderTextField = ({ input, meta, label, type, placeholder }) => {
+    const fieldError = meta.touched ? meta.error || meta.submitError : '';
 
-        <div className={styles.fieldGroup}>
-          <label className={styles.fieldLabel} htmlFor="signup-password">
-            Password
-          </label>
-          <input
-            id="signup-password"
-            name="password"
-            className={styles.textInput}
-            type="password"
-            placeholder="Enter your password"
-            value={signupFormData.password}
-            onChange={handleInputChange}
-            aria-invalid={Boolean(signupErrors.password)}
-          />
-          <p className={styles.fieldError}>{signupErrors.password}</p>
-        </div>
+    return (
+      <div className={styles.fieldGroup}>
+        <label className={styles.fieldLabel} htmlFor={input.name}>
+          {label}
+        </label>
+        <input
+          {...input}
+          id={input.name}
+          className={styles.textInput}
+          type={type}
+          placeholder={placeholder}
+          aria-invalid={Boolean(fieldError)}
+        />
+        <p className={styles.fieldError}>{fieldError}</p>
+      </div>
+    );
+  };
 
-        <div className={styles.fieldGroup}>
-          <label className={styles.fieldLabel} htmlFor="signup-confirm-password">
-            Confirm Password
-          </label>
-          <input
-            id="signup-confirm-password"
-            name="confirmPassword"
-            className={styles.textInput}
-            type="password"
-            placeholder="Confirm your password"
-            value={signupFormData.confirmPassword}
-            onChange={handleInputChange}
-            aria-invalid={Boolean(signupErrors.confirmPassword)}
-          />
-          <p className={styles.fieldError}>{signupErrors.confirmPassword}</p>
-        </div>
+  renderPositionField = ({ meta, values }) => {
+    const fieldError =
+      meta.touched || meta.submitFailed ? meta.error || meta.submitError : '';
+    const selectedPositions = Array.isArray(values.positions) ? values.positions : [];
+    const triggerLabel =
+      selectedPositions.length > 0 ? selectedPositions.join(', ') : 'Select positions';
 
-        <div className={styles.fieldGroup}>
-          <label className={styles.fieldLabel} htmlFor="signup-position">
-            Position
-          </label>
-          <select
-            id="signup-position"
-            name="position"
-            className={styles.selectInput}
-            value={signupFormData.position}
-            onChange={handleInputChange}
-            aria-invalid={Boolean(signupErrors.position)}
+    return (
+      <div className={styles.dropdownFieldGroup} ref={this.positionDropdownRef}>
+        <span className={styles.fieldLabel}>Position</span>
+        <div className={styles.dropdownControl}>
+          <button
+            className={styles.dropdownTrigger}
+            type="button"
+            onClick={this.togglePositionDropdown}
+            aria-expanded={this.state.isPositionDropdownOpen}
           >
-            <option value="" disabled>
-              Select your position
-            </option>
-            {positions.map((position) => (
-              <option key={position} value={position}>
-                {position}
-              </option>
-            ))}
-          </select>
-
-          <p className={styles.fieldError}>{signupErrors.position}</p>
+            <span className={styles.dropdownTriggerText}>{triggerLabel}</span>
+            <span className={styles.dropdownTriggerIcon}>
+              {this.state.isPositionDropdownOpen ? 'Hide' : 'Select'}
+            </span>
+          </button>
+          <div
+            className={
+              this.state.isPositionDropdownOpen ? styles.dropdownPanelOpen : styles.dropdownPanel
+            }
+          >
+            <div className={styles.dropdownOptionGrid}>
+              {positions.map((position) => (
+                <label key={position} className={styles.checkboxItem}>
+                  <Field
+                    name="positions"
+                    component="input"
+                    type="checkbox"
+                    value={position}
+                  />
+                  <span>{position}</span>
+                </label>
+              ))}
+            </div>
+          </div>
         </div>
+        <p className={styles.fieldError}>{fieldError}</p>
+      </div>
+    );
+  };
 
-      
+  render() {
+    return (
+      <Form
+        initialValues={initialSignupValues}
+        onSubmit={this.handleSubmit}
+        validate={this.validate}
+        render={({ handleSubmit, submitError, submitting, values }) => (
+          <form className={styles.authForm} noValidate onSubmit={handleSubmit}>
+            <p className={styles.formTitle}>Sign up</p>
 
-        <button className={styles.submitButton} type="submit">
-          Sign up
-        </button>
-      </form>
+            <div className={styles.signupGrid}>
+              <Field name="name">
+                {({ input, meta }) =>
+                  this.renderTextField({
+                    input,
+                    meta,
+                    label: 'Name',
+                    type: 'text',
+                    placeholder: 'Enter your name',
+                  })
+                }
+              </Field>
 
-        <div className={styles.formError}>{signupErrors.form}</div>
+              <Field name="email">
+                {({ input, meta }) =>
+                  this.renderTextField({
+                    input,
+                    meta,
+                    label: 'Email',
+                    type: 'email',
+                    placeholder: 'Enter your email',
+                  })
+                }
+              </Field>
 
-      <p className={styles.formLoginNavigation}>Already have an account? <Link to="/login">Log in</Link></p>
-    </div>
-  );
+              <Field name="password">
+                {({ input, meta }) =>
+                  this.renderTextField({
+                    input,
+                    meta,
+                    label: 'Password',
+                    type: 'password',
+                    placeholder: 'Enter your password',
+                  })
+                }
+              </Field>
+
+              <Field
+                name="positions"
+                subscription={{
+                  touched: true,
+                  error: true,
+                  submitError: true,
+                  submitFailed: true,
+                }}
+              >
+                {({ meta }) => this.renderPositionField({ meta, values })}
+              </Field>
+            </div>
+            <div className={styles.formFooter}>
+              <p className={styles.formError}>{submitError}</p>
+            </div>
+
+            <button className={styles.submitButton} type="submit" disabled={submitting}>
+              {submitting ? 'Creating account...' : 'Sign up'}
+            </button>
+            
+            <p className={styles.formFooterText}>
+              Already have an account? <a href="/login">Log in</a>
+            </p>
+          </form>
+        )}
+      />
+    );
+  }
 }
+
 export default SignupForm;

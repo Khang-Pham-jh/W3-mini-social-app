@@ -1,8 +1,8 @@
-import './App.css';
-import AuthPage from './features/auth/pages/AuthPage.jsx';
+import { Outlet } from 'react-router-dom';
+
 
 function App() {
-  return <AuthPage />;
+  return <Outlet />;
 }
 
 export default App;

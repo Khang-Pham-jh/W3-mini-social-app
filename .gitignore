@@ -1,7 +1,9 @@
 .DS_Store
 .env
 /node_modules/
-
+/docs/
 # React Router
 /.react-router/
 /build/
+
+#local development files

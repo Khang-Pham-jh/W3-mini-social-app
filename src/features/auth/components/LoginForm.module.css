@@ -1,41 +1,30 @@
-
-.loginFormContainer {
+.authForm {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  max-width: 420px;
   margin: 0 auto;
-  padding: 32px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-  box-sizing: border-box;
 }
 
 .formTitle {
   margin: 0 0 24px;
   font-size: 28px;
   font-weight: 700;
-  line-height: 1.2;
-  color: #111111;
+  line-height: 1.15;
+  color: #0f172a;
   text-align: left;
-}
-
-.authForm {
-  display: flex;
-  flex-direction: column;
 }
 
 .fieldGroup {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding-bottom: 2px;
+  margin-bottom: 12px;
 }
 
 .fieldLabel {
   font-size: 14px;
-  font-weight: 600;
-  color: #222222;
+  font-weight: 700;
+  color: #0f172a;
   text-align: left;
 }
 
@@ -43,82 +32,84 @@
   width: 100%;
   height: 46px;
   padding: 0 14px;
-  font-size: 15px;
-  color: #111111;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
   background: #ffffff;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  outline: none;
+  color: #0f172a;
+  font-size: 15px;
   box-sizing: border-box;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .textInput::placeholder {
-  color: #9ca3af;
+  color: #94a3b8;
 }
 
 .textInput:focus {
+  outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
 .fieldError {
-  min-height: 14px;
+  min-height: 16px;
   margin: 0;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.4;
   color: #dc2626;
   text-align: left;
 }
 
+.formFooter {
+  margin-top: 4px;
+}
+
 .formError {
-  min-height: 14px;
+  min-height: 18px;
   margin: 0;
-  font-size: 10px;
+  font-size: 13px;
   color: #dc2626;
   text-align: left;
 }
 
 .submitButton {
-  height: 46px;
-  margin-top: 14px;
+  align-self: center;
+  padding: 0 24px;
+  height: 48px;
+  margin-top: 12px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #2563eb;
   color: #ffffff;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.15s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease,
+    opacity 0.2s ease;
 }
 
-.submitButton:hover {
+.submitButton:hover:not(:disabled) {
   background: #1d4ed8;
 }
 
-.submitButton:active {
+.submitButton:active:not(:disabled) {
   transform: translateY(1px);
 }
 
-.submitButton:focus-visible {
-  outline: 3px solid rgba(37, 99, 235, 0.2);
-  outline-offset: 2px;
+.submitButton:disabled {
+  opacity: 0.72;
+  cursor: wait;
 }
 
-.formSignupNavigation{
-    margin-top: 16px;
-    font-size: 14px;
-    color: #111111;
-    text-align: center;
+.formFooterText {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #475569; 
+  align-self: center;
 }
 
-@media (max-width: 480px) {
-  .loginFormContainer {
-    padding: 24px 20px;
-    border-radius: 12px;
-  }
 
-  .formTitle {
-    font-size: 24px;
-  }
-}
