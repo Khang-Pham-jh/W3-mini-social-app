@@ -5,6 +5,7 @@ import App from './App.jsx';
 import AuthPage from './features/auth/pages/AuthPage';
 import { AuthProvider } from './features/auth/context/AuthContext';
 import HomePage from './features/home/pages/HomePage';
+import ProfilePage from './features/profile/pages/ProfilePage';
 import ProtectedRoute from './shared/components/ProtectedRoute';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -21,6 +22,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <HomePage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'profile',
+        element: (
+          <ProtectedRoute>
+            <ProfilePage />
           </ProtectedRoute>
         ),
       },
