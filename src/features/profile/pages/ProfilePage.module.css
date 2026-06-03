@@ -1,4 +1,4 @@
-.homePage {
+.profilePage {
   min-height: 100%;
   display: flex;
   align-items: center;
@@ -10,7 +10,7 @@
   box-sizing: border-box;
 }
 
-.heroCard {
+.profileCard {
   width: min(760px, 100%);
   padding: 40px;
   border: 1px solid rgba(148, 163, 184, 0.35);
@@ -49,7 +49,6 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
-  margin-bottom: 28px;
 }
 
 .detailCard {
@@ -75,39 +74,12 @@
   word-break: break-word;
 }
 
-.logoutButton {
-  height: 48px;
-  padding: 0 20px;
-  border: none;
-  border-radius: 999px;
-  background: #0f172a;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
-}
-
-.logoutButton:hover {
-  background: #1e293b;
-  transform: translateY(-1px);
-  box-shadow: 0 16px 24px rgba(15, 23, 42, 0.2);
-}
-
-.logoutButton:focus-visible {
-  outline: 3px solid rgba(37, 99, 235, 0.25);
-  outline-offset: 3px;
-}
-
 @media (max-width: 640px) {
-  .homePage {
+  .profilePage {
     padding: 24px 16px;
   }
 
-  .heroCard {
+  .profileCard {
     padding: 28px 20px;
     border-radius: 24px;
   }
