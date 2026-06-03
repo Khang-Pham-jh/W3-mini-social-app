@@ -1,10 +1,7 @@
 import { isSupabaseConfigured, supabase } from '../../../libs/supabase';
+import { normalizeText } from '../../../shared/utils/text';
 
 const PROFILES_TABLE = 'profiles';
-
-function normalizeText(value) {
-  return String(value ?? '').trim();
-}
 
 function extractPositions(positionsValue) {
   if (Array.isArray(positionsValue)) {

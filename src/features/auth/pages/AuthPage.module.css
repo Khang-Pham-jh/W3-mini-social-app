@@ -119,7 +119,7 @@
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 580px) {
   .authPageContainer {
     padding: 16px 12px;
   }
@@ -131,7 +131,7 @@
   }
 
   .logo {
-    width: 104px;
+    width: 200px;
   }
 
   .headerRow {
@@ -144,7 +144,8 @@
   }
 
   .modeSwitch {
-    width: 100%;
+    width: 90%;
+    align-self: center;
   }
 
   .modeButton,

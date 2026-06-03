@@ -1,4 +1,5 @@
 import { isSupabaseConfigured, supabase, supabaseAuthRedirectUrl } from '../../../libs/supabase';
+import { normalizeEmail, normalizeText } from '../../../shared/utils/text';
 
 const DUPLICATE_EMAIL_MESSAGE = 'An account with this email already exists.';
 const INVALID_CREDENTIALS_MESSAGE = 'Email or password is incorrect.';
@@ -9,14 +10,6 @@ const SIGNUP_UNAVAILABLE_MESSAGE = 'Sign up is currently unavailable. Please try
 const TOO_MANY_ATTEMPTS_MESSAGE = 'Too many attempts. Please wait a moment and try again.';
 const EMAIL_CONFIRMATION_DISABLED_MESSAGE =
   'Supabase email confirmation must be disabled for this training task before signup can create an active session.';
-
-function normalizeEmail(email) {
-  return String(email ?? '').trim().toLowerCase();
-}
-
-function normalizeText(value) {
-  return String(value ?? '').trim();
-}
 
 function mapSignupError(error) {
   if (!error) {
