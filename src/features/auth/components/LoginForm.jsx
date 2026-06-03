@@ -3,6 +3,7 @@ import { FORM_ERROR } from 'final-form';
 import { Field, Form } from 'react-final-form';
 import { AuthContext } from '../context/AuthContext';
 import { validateLoginForm } from '../../../shared/utils/validation';
+import TextField from '../../../shared/components/TextField';
 import styles from './LoginForm.module.css';
 
 const initialLoginValues = {
@@ -32,27 +33,6 @@ class LoginForm extends Component {
     return undefined;
   };
 
-  renderTextField = ({ input, meta, label, type, placeholder }) => {
-    const fieldError = meta.touched ? meta.error || meta.submitError : '';
-
-    return (
-      <div className={styles.fieldGroup}>
-        <label className={styles.fieldLabel} htmlFor={input.name}>
-          {label}
-        </label>
-        <input
-          {...input}
-          id={input.name}
-          className={styles.textInput}
-          type={type}
-          placeholder={placeholder}
-          aria-invalid={Boolean(fieldError)}
-        />
-        <p className={styles.fieldError}>{fieldError}</p>
-      </div>
-    );
-  };
-
   render() {
     return (
       <Form
@@ -64,27 +44,25 @@ class LoginForm extends Component {
             <p className={styles.formTitle}>Log in</p>
 
             <Field name="email">
-              {({ input, meta }) =>
-                this.renderTextField({
-                  input,
-                  meta,
-                  label: 'Email',
-                  type: 'email',
-                  placeholder: 'Enter your email',
-                })
-              }
+              {(fieldProps) => (
+                <TextField
+                  {...fieldProps}
+                  label="Email"
+                  type="email"
+                  placeholder="Enter your email"
+                />
+              )}
             </Field>
 
             <Field name="password">
-              {({ input, meta }) =>
-                this.renderTextField({
-                  input,
-                  meta,
-                  label: 'Password',
-                  type: 'password',
-                  placeholder: 'Enter your password',
-                })
-              }
+              {(fieldProps) => (
+                <TextField
+                  {...fieldProps}
+                  label="Password"
+                  type="password"
+                  placeholder="Enter your password"
+                />
+              )}
             </Field>
             <div className={styles.formFooter}>
               <p className={styles.formError}>{submitError}</p>
@@ -95,7 +73,16 @@ class LoginForm extends Component {
             </button>
 
             <p className={styles.formFooterText}>
-              Don't have an account? <a href="/signup">Sign up</a>
+              Don't have an account?{' '}
+              <a
+                href="/signup"
+                onClick={(event) => {
+                  event.preventDefault();
+                  this.props.onSwitchMode?.('signup');
+                }}
+              >
+                Sign up
+              </a>
             </p>
           </form>
           

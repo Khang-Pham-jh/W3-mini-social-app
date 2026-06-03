@@ -11,6 +11,10 @@ const TOO_MANY_ATTEMPTS_MESSAGE = 'Too many attempts. Please wait a moment and t
 const EMAIL_CONFIRMATION_DISABLED_MESSAGE =
   'Supabase email confirmation must be disabled for this training task before signup can create an active session.';
 
+function getErrorCode(error) {
+  return String(error?.code ?? '').toLowerCase();
+}
+
 function mapSignupError(error) {
   if (!error) {
     return {
@@ -18,46 +22,41 @@ function mapSignupError(error) {
     };
   }
 
-  const message = String(error.message ?? '').toLowerCase();
-  const code = String(error.code ?? '').toLowerCase();
+  const code = getErrorCode(error);
 
-  if (
-    code.includes('user_already_exists') ||
-    message.includes('already registered') ||
-    message.includes('already exists')
-  ) {
+  if (code === 'user_already_exists') {
     return {
       email: DUPLICATE_EMAIL_MESSAGE,
     };
   }
 
-  if (message.includes('signup is disabled')) {
+  if (code === 'signup_disabled' || code === 'email_provider_disabled') {
     return {
       form: SIGNUP_UNAVAILABLE_MESSAGE,
     };
   }
 
-  if (message.includes('rate limit') || message.includes('too many requests')) {
+  if (code === 'over_request_rate_limit' || code === 'over_email_send_rate_limit') {
     return {
       form: TOO_MANY_ATTEMPTS_MESSAGE,
     };
   }
 
-  if (message.includes('database error saving new user')) {
-    return {
-      form: 'We could not create your account right now. Please try again later.',
-    };
-  }
-
-  if (message.includes('email') && message.includes('invalid')) {
+  if (code === 'email_address_invalid') {
     return {
       email: 'Please enter a valid email address.',
     };
   }
 
-  if (message.includes('password') && message.includes('at least')) {
+  if (code === 'weak_password') {
     return {
       password: 'Password does not meet the minimum requirements.',
+    };
+  }
+
+  if (code === 'unexpected_failure') {
+    return {
+      form: 'We could not create your account right now. Please try again later.',
     };
   }
 
@@ -67,9 +66,21 @@ function mapSignupError(error) {
 }
 
 function mapLoginError(error) {
-  const message = String(error?.message ?? '').toLowerCase();
+  const code = getErrorCode(error);
 
-  if (message.includes('rate limit') || message.includes('too many requests')) {
+  if (code === 'invalid_credentials') {
+    return {
+      form: INVALID_CREDENTIALS_MESSAGE,
+    };
+  }
+
+  if (code === 'email_not_confirmed') {
+    return {
+      form: 'Please confirm your email before logging in.',
+    };
+  }
+
+  if (code === 'over_request_rate_limit') {
     return {
       form: TOO_MANY_ATTEMPTS_MESSAGE,
     };

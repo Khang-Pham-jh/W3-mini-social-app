@@ -1,5 +1,6 @@
 import { isSupabaseConfigured, supabase } from '../../../libs/supabase';
 import { normalizeText } from '../../../shared/utils/text';
+import { getPositionLabels } from '../constants/positions';
 
 const PROFILES_TABLE = 'profiles';
 
@@ -14,13 +15,13 @@ function extractPositions(positionsValue) {
 
 function buildProfilePayload(user) {
   const positions = extractPositions(user?.user_metadata?.positions ?? user?.user_metadata?.position);
+  const positionLabels = getPositionLabels(positions);
 
   return {
     id: user?.id,
     email: normalizeText(user?.email),
     name: normalizeText(user?.user_metadata?.name),
-    position: positions.join(', '),
-    avatar_url: null,
+    position: positionLabels.join(', '),
   };
 }
 

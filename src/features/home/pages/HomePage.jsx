@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/context/AuthContext';
+import { getPositionLabels } from '../../auth/constants/positions';
 import styles from './HomePage.module.css';
 
 function formatPositions(userMetadata) {
   if (Array.isArray(userMetadata?.positions) && userMetadata.positions.length > 0) {
-    return userMetadata.positions.join(', ');
+    return getPositionLabels(userMetadata.positions).join(', ');
   }
 
   if (typeof userMetadata?.position === 'string' && userMetadata.position.trim()) {
