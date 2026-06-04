@@ -1,13 +1,19 @@
 import { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import jhLogo from '../../assets/JH-logo.png';
+import ModeSwitch from './ModeSwitch';
 import styles from './TopBar.module.css';
 
 function TopBar({ children }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { currentProfile, currentUser, isLoggedIn, logout } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const authRouteNames = ['/', '/login', '/signup'];
+  const isAuthRoute = authRouteNames.includes(location.pathname);
+  const authMode = location.pathname === '/signup' ? 'signup' : 'login';
 
   useEffect(() => {
     function handleEscape(event) {
@@ -85,30 +91,21 @@ function TopBar({ children }) {
               </button>
             </>
           ) : (
-            <>
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  isActive ? styles.actionButtonActive : styles.actionButton
-                }
-              >
-                Log in
-              </NavLink>
-              <NavLink
-                to="/signup"
-                className={({ isActive }) =>
-                  isActive ? styles.actionButtonActive : styles.actionButton
-                }
-              >
-                Sign up
-              </NavLink>
-            </>
+            <ModeSwitch
+              mode={authMode}
+              onSwitchMode={(nextMode) =>
+                navigate(nextMode === 'signup' ? '/signup' : '/login')
+              }
+            />
           )}
         </div>
       </header>
 
       {isLoggedIn ? (
-        <aside className={styles.sidebar} aria-label="Sidebar">
+        <aside
+          className={`${styles.sidebar} ${isSidebarOpen ? styles.sidebarOpen : ''}`}
+          aria-label="Sidebar"
+        >
           <div className={styles.sidebarHeader}>
             <div>
               <div className={styles.sidebarTitle}>Navigation</div>

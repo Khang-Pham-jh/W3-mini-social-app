@@ -57,22 +57,6 @@ class AuthPage extends Component {
           <section className={styles.authCard}>
             <div className={styles.headerRow}>
               <img className={styles.logo} src={jhLogo} alt="JH logo" />
-              <div className={styles.modeSwitch} role="tablist" aria-label="Authentication mode">
-                <button
-                  className={activeMode === 'login' ? styles.activeModeButton : styles.modeButton}
-                  type="button"
-                  onClick={() => this.handleModeChange('login')}
-                >
-                  Log in
-                </button>
-                <button
-                  className={activeMode === 'signup' ? styles.activeModeButton : styles.modeButton}
-                  type="button"
-                  onClick={() => this.handleModeChange('signup')}
-                >
-                  Sign up
-                </button>
-              </div>
             </div>
 
             <div className={styles.contentArea}>
