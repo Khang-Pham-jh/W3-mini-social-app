@@ -21,7 +21,7 @@ function HomePage() {
   const [error, setError] = useState('');
   const [hasMore, setHasMore] = useState(false);
   const [nextCursor, setNextCursor] = useState(null);
-  const loadMoreTriggerRef = useRef(null);f
+  const loadMoreTriggerRef = useRef(null);
 
   const userId = currentUser?.id;
 

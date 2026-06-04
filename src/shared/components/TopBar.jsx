@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import jhLogo from '../../assets/JH-logo.png';
 import ModeSwitch from './ModeSwitch';
+import { AUTH_MODES } from '../constants/auth.js';
 import styles from './TopBar.module.css';
 
 function TopBar() {
@@ -11,7 +12,7 @@ function TopBar() {
   const { currentProfile, currentUser, isLoggedIn, logout } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const authMode = location.pathname === '/signup' ? 'signup' : 'login';
+  const authMode = location.pathname === '/signup' ? AUTH_MODES.SIGNUP : AUTH_MODES.LOGIN;
 
   useEffect(() => {
     function handleEscape(event) {
@@ -56,17 +57,6 @@ function TopBar() {
           </div>
         </div>
 
-        {/* {isLoggedIn ? (
-          <div className={`${styles.sidebarProfile} ${styles.tabletProfile}`}>
-            <div className={styles.sidebarAvatar}>{displayName.charAt(0).toUpperCase()}</div>
-            <div className={styles.sidebarProfileText}>
-              <div className={styles.sidebarProfileName}>{displayName}</div>
-              <div className={styles.sidebarProfileEmail}>{displayEmail}</div>
-              <div className={styles.sidebarProfileMeta}>{displayPosition}</div>
-            </div>
-          </div>
-        ) : null} */}
-
         {isLoggedIn ? (
           <nav className={styles.desktopNav} aria-label="Primary navigation">
             <NavLink
@@ -103,7 +93,7 @@ function TopBar() {
             <ModeSwitch
               mode={authMode}
               onSwitchMode={(nextMode) =>
-                navigate(nextMode === 'signup' ? '/signup' : '/login')
+                navigate(nextMode === AUTH_MODES.SIGNUP ? '/signup' : '/login')
               }
             />
           )}
@@ -120,19 +110,19 @@ function TopBar() {
               <div className={styles.sidebarTitle}>Navigation</div>
               <div className={styles.sidebarSubtitle}>Bulletin workspace</div>
             </div>
-            <button className={styles.closeButton} type="button" onClick={closeSidebar}>
+            <button className={styles.closeButton} type="button" onClick={closeSidebar} aria-label="Close sidebar">
               ×
             </button>
           </div>
 
-          <div className={styles.sidebarProfile}>
+          <Link to="/profile" onClick={closeSidebar} className={styles.sidebarProfile}>
             <div className={styles.sidebarAvatar}>{displayName.charAt(0).toUpperCase()}</div>
             <div className={styles.sidebarProfileText}>
               <div className={styles.sidebarProfileName}>{displayName}</div>
               <div className={styles.sidebarProfileEmail}>{displayEmail}</div>
               <div className={styles.sidebarProfileMeta}>{displayPosition}</div>
             </div>
-          </div>
+          </Link>
 
           <nav className={styles.sidebarNav} aria-label="Sidebar navigation">
             <NavLink

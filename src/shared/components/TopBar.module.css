@@ -203,6 +203,8 @@
   padding: 12px;
   border-radius: 18px;
   background: #eaf0f4;
+  text-decoration: none;
+  color: inherit;
 }
 
 .sidebarAvatar {
@@ -429,7 +431,7 @@
     padding: 12px 14px;
   }
 
-  .sideBarProfile{
+  .shell[data-auth='logged-in'] .sidebarProfile{
     display: none;
   }
 
