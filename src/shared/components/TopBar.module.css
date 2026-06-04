@@ -76,7 +76,6 @@
 
 .navLink,
 .navLinkActive,
-.actionButton,
 .actionButtonActive {
   display: inline-flex;
   align-items: center;
@@ -101,6 +100,16 @@
   color: #334155;
 }
 
+.actionButtonActive {
+  background: rgb(222, 220, 220);
+  width: 100%;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+  
+
 .navLink:hover,
 .actionButton:hover,
 .logoutButton:hover,
@@ -109,8 +118,7 @@
   transform: translateY(-1px);
 }
 
-.navLinkActive,
-.actionButtonActive {
+.navLinkActive{
   background: #0f172a;
   color: #ffffff;
 }
@@ -138,6 +146,7 @@
   background: #00629d;
   color: #ffffff;
   font-weight: 700;
+  font-size: 14px;
 }
 
 .menuButton {
@@ -326,10 +335,7 @@
 
   .shell[data-auth='logged-in'] .topBar {
     position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 200px;
+    width: 250px;
     min-height: 100vh;
     padding: 20px 16px;
     flex-direction: column;
@@ -342,7 +348,34 @@
   }
 
   .shell[data-auth='logged-in'] .desktopNav {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 90%;
+  }
+
+  .shell[data-auth='logged-in'] .desktopNav .navLink,
+  .shell[data-auth='logged-in'] .desktopNav .navLinkActive {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    text-decoration: none;
+    width: 90%;
+    justify-content: flex-start;
+    background: none;
+    color: #181c1d;
+  }
+
+  .shell[data-auth='logged-in'] .desktopNav .navLink:hover {
+    background: #e5e9ea;
+  }
+
+  .shell[data-auth='logged-in'] .desktopNav .navLinkActive {
+    background: #dfe3e4;
+    color: #00629d;
+    font-weight: 700;
   }
 
   .shell[data-auth='logged-in'] .menuButton {
@@ -352,7 +385,7 @@
   .shell[data-auth='logged-in'] .actionsArea {
     width: 100%;
     margin-top: auto;
-    flex-direction: column;
+    flex-direction: flex-start;
     align-items: stretch;
   }
 
@@ -361,8 +394,8 @@
   }
 
   .shell[data-auth='logged-in'] .content {
-    width: calc(100% - 200px);
-    margin-left: 200px;
+    width: calc(100% - 250px);
+    margin-left: 250px;
     min-height: 100vh;
   }
 
@@ -388,7 +421,9 @@
   }
 
   .shell[data-auth='logged-in'] .menuButton {
-    display: inline-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .shell[data-auth='logged-in'] .logoutButton {
