@@ -5,7 +5,7 @@ import jhLogo from '../../assets/JH-logo.png';
 import ModeSwitch from './ModeSwitch';
 import styles from './TopBar.module.css';
 
-function TopBar({ children }) {
+function TopBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { currentProfile, currentUser, isLoggedIn, logout } = useAuth();
@@ -46,7 +46,7 @@ function TopBar({ children }) {
   const displayPosition = currentProfile?.position || currentUser?.user_metadata?.position || 'Visitor';
 
   return (
-    <div className={styles.shell} data-auth={isLoggedIn ? 'logged-in' : 'logged-out'}>
+    <>
       <header className={styles.topBar}>
         <div className={styles.brandArea}>
           <img className={styles.logo} src={jhLogo} alt="JH logo" />
@@ -169,9 +169,7 @@ function TopBar({ children }) {
           onClick={closeSidebar}
         />
       ) : null}
-
-      <main className={styles.content}>{children}</main>
-    </div>
+    </>
   );
 }
 

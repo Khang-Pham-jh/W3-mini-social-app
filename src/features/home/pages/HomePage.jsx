@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import TopBar from '../../../shared/components/TopBar';
+import PageLayout from '../../../shared/components/PageLayout';
 import PostComposer from '../components/PostComposer';
 import PostFeed from '../components/PostFeed';
 import {
@@ -21,7 +21,7 @@ function HomePage() {
   const [error, setError] = useState('');
   const [hasMore, setHasMore] = useState(false);
   const [nextCursor, setNextCursor] = useState(null);
-  const loadMoreTriggerRef = useRef(null);
+  const loadMoreTriggerRef = useRef(null);f
 
   const userId = currentUser?.id;
 
@@ -170,7 +170,7 @@ function HomePage() {
   }
 
   return (
-    <TopBar>
+    <PageLayout>
       <main className={styles.homePage}>
         <section className={styles.feedColumn} aria-label="Bulletin feed">
           <PostComposer
@@ -192,7 +192,7 @@ function HomePage() {
           />
         </section>
       </main>
-    </TopBar>
+    </PageLayout>
   );
 }
 
