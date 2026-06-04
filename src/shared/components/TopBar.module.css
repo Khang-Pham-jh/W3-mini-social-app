@@ -406,10 +406,27 @@
   }
 }
 
-@media (max-width: 450px) {
-  .topBar {
-    min-height: 72px;
+@media (max-width: 650px) {
+    .shell[data-auth='logged-in'] .topBar {
+    width: 200px;
     padding: 12px 14px;
+  }
+
+  .shell[data-auth='logged-in'] .content{
+    width: calc(100% - 200px);
+    margin-left: 200px;
+    min-height: calc(100vh - 72px);
+  }
+}
+
+@media (max-width: 450px) {
+   .shell[data-auth='logged-in'] .topBar {
+    width: 100%;
+    padding: 12px 14px;
+  }
+
+  .sideBarProfile{
+    display: none;
   }
 
   .brandNote {
@@ -433,9 +450,9 @@
   .shell[data-auth='logged-in'] .sidebar {
     display: flex;
     position: fixed;
+    height: 100vh;
     top: 0;
     left: 0;
-    bottom: 0;
     width: min(88vw, 320px);
     padding: 18px 14px;
     flex-direction: column;

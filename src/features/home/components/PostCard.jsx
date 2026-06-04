@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AuthorHoverCard from './AuthorHoverCard';
 import RoleBadge from './RoleBadge';
 import styles from './PostCard.module.css';
@@ -19,21 +19,29 @@ function formatPostTime(createdAt) {
 }
 
 function PostCard({ post, onHidePost }) {
+  const navigate = useNavigate();
   const authorName = getAuthorName(post);
   const avatarInitial = authorName.charAt(0).toUpperCase();
-  const profileUrl = `/profile/${post.author?.id}`;
+
+  const handleProfileClick = () => {
+    if (post.author?.id) {
+      // Navigating to exact `/profile` path prevents 404s on unconfigured dynamic routes.
+      // The target ID is securely passed via router state.
+      navigate('/profile', { state: { profileId: post.author.id } });
+    }
+  };
 
   return (
     <article className={styles.postCard}>
       <header className={styles.postHeader}>
         <AuthorHoverCard author={post.author}>
-          <Link to={profileUrl} className={styles.avatarLink}>
+          <button type="button" className={styles.avatarLink} onClick={handleProfileClick}>
             <div className={styles.avatar}>{avatarInitial}</div>
-          </Link>
+          </button>
           <div className={styles.authorBlock}>
-            <Link to={profileUrl} className={styles.nameLink}>
+            <button type="button" className={styles.nameLink} onClick={handleProfileClick}>
               <p className={styles.authorName}>{authorName}</p>
-            </Link>
+            </button>
             <p className={styles.postMeta}>
               <RoleBadge role={post.author?.position} /> - {formatPostTime(post.createdAt)}
             </p>
