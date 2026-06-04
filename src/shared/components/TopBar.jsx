@@ -56,6 +56,17 @@ function TopBar({ children }) {
           </div>
         </div>
 
+        {/* {isLoggedIn ? (
+          <div className={`${styles.sidebarProfile} ${styles.tabletProfile}`}>
+            <div className={styles.sidebarAvatar}>{displayName.charAt(0).toUpperCase()}</div>
+            <div className={styles.sidebarProfileText}>
+              <div className={styles.sidebarProfileName}>{displayName}</div>
+              <div className={styles.sidebarProfileEmail}>{displayEmail}</div>
+              <div className={styles.sidebarProfileMeta}>{displayPosition}</div>
+            </div>
+          </div>
+        ) : null} */}
+
         {isLoggedIn ? (
           <nav className={styles.desktopNav} aria-label="Primary navigation">
             <NavLink

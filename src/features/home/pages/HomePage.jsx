@@ -7,6 +7,7 @@ import {
   createPost,
   fetchFeedPosts,
   hidePost,
+  unhidePost,
 } from '../services/postService';
 import { useAuth } from '../../auth/context/AuthContext';
 import styles from './HomePage.module.css';
@@ -137,7 +138,34 @@ function HomePage() {
       return;
     }
 
-    setPosts((currentPosts) => currentPosts.filter((post) => post.id !== postId));
+    setPosts((currentPosts) =>
+      currentPosts.map((post) =>
+        post.id === postId ? { ...post, isHiddenLocally: true } : post
+      )
+    );
+    setError('');
+  }
+
+  async function handleUnhidePost(postId) {
+    if (!userId) {
+      return;
+    }
+
+    const result = await unhidePost({
+      userId,
+      postId,
+    });
+
+    if (!result.success) {
+      setError(result.error);
+      return;
+    }
+
+    setPosts((currentPosts) =>
+      currentPosts.map((post) =>
+        post.id === postId ? { ...post, isHiddenLocally: false } : post
+      )
+    );
     setError('');
   }
 
@@ -160,6 +188,7 @@ function HomePage() {
             loadMoreTriggerRef={loadMoreTriggerRef}
             posts={posts}
             onHidePost={handleHidePost}
+            onUnhidePost={handleUnhidePost}
           />
         </section>
       </main>

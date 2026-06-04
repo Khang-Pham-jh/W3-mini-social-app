@@ -33,3 +33,29 @@
   min-height: 48px;
   box-sizing: border-box;
 }
+
+.hiddenPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border: 1px solid #d8e1e8;
+  border-radius: 8px;
+  background: #f9fbfc;
+  color: #52626c;
+  font-size: 14px;
+}
+
+.undoButton {
+  background: none;
+  border: none;
+  color: #00629d;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.undoButton:hover {
+  text-decoration: underline;
+}

@@ -9,6 +9,7 @@ function PostFeed({
   loadMoreTriggerRef,
   posts,
   onHidePost,
+  onUnhidePost,
 }) {
   if (isInitialLoading) {
     return <p className={styles.statusText}>Loading posts...</p>;
@@ -21,9 +22,18 @@ function PostFeed({
       {posts.length === 0 ? (
         <p className={styles.statusText}>No posts yet.</p>
       ) : (
-        posts.map((post) => (
-          <PostCard key={post.id} post={post} onHidePost={onHidePost} />
-        ))
+        posts.map((post) =>
+          post.isHiddenLocally ? (
+            <div className={styles.hiddenPlaceholder} key={`hidden-${post.id}`}>
+              <span>Post hidden.</span>
+              <button className={styles.undoButton} type="button" onClick={() => onUnhidePost(post.id)}>
+                Undo
+              </button>
+            </div>
+          ) : (
+            <PostCard key={post.id} post={post} onHidePost={onHidePost} />
+          )
+        )
       )}
 
       <div className={styles.loadMoreTrigger} ref={loadMoreTriggerRef}>
