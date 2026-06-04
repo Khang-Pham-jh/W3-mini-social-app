@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import jhLogo from '../../../assets/JH-logo-name.png';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
-import TopBar from '../../../shared/components/TopBar';
+import PageLayout from '../../../shared/components/PageLayout';
+import { AUTH_MODES } from '../constants/auth';
 import styles from './AuthPage.module.css';
 
 class AuthPage extends Component {
@@ -32,7 +33,7 @@ class AuthPage extends Component {
       activeMode: nextMode,
     });
 
-    this.props.navigate(nextMode === 'signup' ? '/signup' : '/login');
+    this.props.navigate(nextMode === AUTH_MODES.SIGNUP ? '/signup' : '/login');
   };
 
   renderActiveForm() {
@@ -41,7 +42,7 @@ class AuthPage extends Component {
       onSwitchMode: this.handleModeChange,
     };
 
-    if (this.state.activeMode === 'signup') {
+    if (this.state.activeMode === AUTH_MODES.SIGNUP) {
       return <SignupForm {...sharedProps} />;
     }
 
@@ -52,7 +53,7 @@ class AuthPage extends Component {
     const { activeMode } = this.state;
 
     return (
-      <TopBar>
+      <PageLayout>
         <main className={styles.authPageContainer}>
           <section className={styles.authCard}>
             <div className={styles.headerRow}>
@@ -66,7 +67,7 @@ class AuthPage extends Component {
             </div>
           </section>
         </main>
-      </TopBar>
+      </PageLayout>
     );
   }
 }
