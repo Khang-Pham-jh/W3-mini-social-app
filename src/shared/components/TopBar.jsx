@@ -11,6 +11,8 @@ function TopBar({ children }) {
   const { currentProfile, currentUser, isLoggedIn, logout } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const authRouteNames = ['/', '/login', '/signup'];
+  const isAuthRoute = authRouteNames.includes(location.pathname);
   const authMode = location.pathname === '/signup' ? 'signup' : 'login';
 
   useEffect(() => {
