@@ -52,3 +52,8 @@ create trigger set_profiles_updated_at
 before update on public.profiles
 for each row
 execute function public.set_profiles_updated_at();
+
+CREATE POLICY "Allow read profiles" ON public.profiles
+FOR SELECT
+TO authenticated
+USING (true);
