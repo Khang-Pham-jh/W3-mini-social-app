@@ -4,7 +4,7 @@ import { Field, Form } from 'react-final-form';
 import { AuthContext } from '../context/AuthContext';
 import { validateLoginForm } from '../../../shared/utils/validation';
 import TextField from '../../../shared/components/TextField';
-import { AUTH_MODES } from '../constants/auth';
+import { AUTH_MODES } from '../../../shared/constants/auth.js';
 import styles from './LoginForm.module.css';
 
 const initialLoginValues = {

@@ -31,6 +31,8 @@ function AuthorHoverCard({ author, children }) {
       className={styles.triggerWrapper}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
+      onBlur={handleMouseLeave}
     >
       {children}
       

@@ -3,7 +3,7 @@ import { normalizeText } from '../../../shared/utils/text';
 
 const POSTS_TABLE = 'posts';
 const HIDDEN_POSTS_TABLE = 'hidden_posts';
-const PROFILES_TABLE = 'profiles';
+const PROFILES_TABLE = 'public_profiles';
 const POST_IMAGES_BUCKET = 'post-images';
 const DEFAULT_POST_PAGE_SIZE = 10;
 
@@ -80,7 +80,6 @@ function getAuthorFallback(authorId) {
   return {
     id: authorId,
     name: 'Unknown user',
-    email: '',
     position: 'Member',
     avatar_url: '',
   };
@@ -132,7 +131,7 @@ async function fetchProfilesByAuthorIds(authorIds) {
 
   const { data, error } = await supabase
     .from(PROFILES_TABLE)
-    .select('id, email, name, position, avatar_url')
+    .select('id, name, position, avatar_url')
     .in('id', uniqueAuthorIds);
 
   if (error) {
@@ -278,8 +277,6 @@ export async function createPost({ authorId, content, imageFiles = [] }) {
     .select('id, author_id, content, image_urls, created_at, updated_at')
     .single();
 
-    console.log('INSERT DATA:', data);
-    console.log('INSERT ERROR:', error);
 
   if (error) {
     return createErrorResponseFromSupabase(error);

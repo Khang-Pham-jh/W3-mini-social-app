@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './PostComposer.module.css';
 
 function getDisplayName(currentProfile, currentUser) {
@@ -43,10 +44,14 @@ function PostComposer({ currentProfile, currentUser, isSubmitting, onCreatePost 
   return (
     <form className={styles.composer} onSubmit={handleSubmit}>
       <div className={styles.composerHeader}>
-        <div className={styles.avatar}>{displayName.charAt(0).toUpperCase()}</div>
+        <Link to="/profile" style={{ textDecoration: 'none' }}>
+          <div className={styles.avatar}>{displayName.charAt(0).toUpperCase()}</div>
+        </Link>
         <div>
           <p className={styles.title}>Create post</p>
-          <p className={styles.subtitle}>Posting as {displayName}</p>
+          <p className={styles.subtitle}>
+            Posting as <Link to="/profile" style={{ color: 'inherit', textDecoration: 'none', fontWeight: 'bold' }}>{displayName}</Link>
+          </p>
         </div>
       </div>
 
@@ -55,6 +60,7 @@ function PostComposer({ currentProfile, currentUser, isSubmitting, onCreatePost 
         value={content}
         placeholder="Share an update with your team"
         rows={4}
+        aria-label="Post content"
         onChange={(event) => setContent(event.target.value)}
       />
 
@@ -70,7 +76,9 @@ function PostComposer({ currentProfile, currentUser, isSubmitting, onCreatePost 
       </div>
 
       {imageFiles.length > 0 ? (
-        <p className={styles.helperText}>{imageFiles.length} image selected</p>
+        <p className={styles.helperText}>
+           {imageFiles.length} {imageFiles.length === 1 ? 'image' : 'images'} selected
+         </p>
       ) : null}
       {formError ? <p className={styles.errorText}>{formError}</p> : null}
     </form>
