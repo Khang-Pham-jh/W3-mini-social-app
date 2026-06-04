@@ -1,6 +1,6 @@
 import { useAuth } from '../../auth/context/AuthContext';
 import { getPositionLabels } from '../../auth/constants/positions';
-import TopBar from '../../../shared/components/TopBar';
+import PageLayout from '../../../shared/components/PageLayout';
 import styles from './HomePage.module.css';
 
 function formatPositions(userMetadata) {
@@ -19,7 +19,7 @@ function HomePage() {
   const { currentProfile, currentUser, session } = useAuth();
 
   return (
-    <TopBar>
+    <PageLayout>
       <main className={styles.homePage}>
         <section className={styles.heroCard}>
           <p className={styles.eyebrow}>Authenticated Area</p>
@@ -55,7 +55,7 @@ function HomePage() {
           </div>
         </section>
       </main>
-    </TopBar>
+    </PageLayout>
   );
 }
 

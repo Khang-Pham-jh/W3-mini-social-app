@@ -4,6 +4,7 @@ import { Field, Form } from 'react-final-form';
 import { AuthContext } from '../context/AuthContext';
 import { validateLoginForm } from '../../../shared/utils/validation';
 import TextField from '../../../shared/components/TextField';
+import { AUTH_MODES } from '../constants/auth';
 import styles from './LoginForm.module.css';
 
 const initialLoginValues = {
@@ -78,7 +79,7 @@ class LoginForm extends Component {
                 href="/signup"
                 onClick={(event) => {
                   event.preventDefault();
-                  this.props.onSwitchMode?.('signup');
+                  this.props.onSwitchMode?.(AUTH_MODES.SIGNUP);
                 }}
               >
                 Sign up

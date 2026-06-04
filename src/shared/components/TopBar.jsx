@@ -3,9 +3,10 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import jhLogo from '../../assets/JH-logo.png';
 import ModeSwitch from './ModeSwitch';
+import { AUTH_MODES } from '../../features/auth/constants/auth';
 import styles from './TopBar.module.css';
 
-function TopBar({ children }) {
+function TopBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { currentProfile, currentUser, isLoggedIn, logout } = useAuth();
@@ -13,7 +14,7 @@ function TopBar({ children }) {
 
   const authRouteNames = ['/', '/login', '/signup'];
   const isAuthRoute = authRouteNames.includes(location.pathname);
-  const authMode = location.pathname === '/signup' ? 'signup' : 'login';
+  const authMode = location.pathname === '/signup' ? AUTH_MODES.SIGNUP : AUTH_MODES.LOGIN;
 
   useEffect(() => {
     function handleEscape(event) {
@@ -48,13 +49,13 @@ function TopBar({ children }) {
   const displayPosition = currentProfile?.position || currentUser?.user_metadata?.position || 'Visitor';
 
   return (
-    <div className={styles.shell} data-auth={isLoggedIn ? 'logged-in' : 'logged-out'}>
+    <>
       <header className={styles.topBar}>
         <div className={styles.brandArea}>
           <img className={styles.logo} src={jhLogo} alt="JH logo" />
           <div className={styles.brandText}>
-            <div className={styles.brandName}>W3 Mini Social App</div>
-            <div className={styles.brandNote}>Bulletin workspace</div>
+            <strong className={styles.brandName}>W3 Mini Social App</strong>
+            <span className={styles.brandNote}>Bulletin workspace</span>
           </div>
         </div>
 
@@ -94,7 +95,7 @@ function TopBar({ children }) {
             <ModeSwitch
               mode={authMode}
               onSwitchMode={(nextMode) =>
-                navigate(nextMode === 'signup' ? '/signup' : '/login')
+                navigate(nextMode === AUTH_MODES.SIGNUP ? '/signup' : '/login')
               }
             />
           )}
@@ -108,8 +109,8 @@ function TopBar({ children }) {
         >
           <div className={styles.sidebarHeader}>
             <div>
-              <div className={styles.sidebarTitle}>Navigation</div>
-              <div className={styles.sidebarSubtitle}>Bulletin workspace</div>
+              <h2 className={styles.sidebarTitle}>Navigation</h2>
+              <p className={styles.sidebarSubtitle}>Bulletin workspace</p>
             </div>
             <button className={styles.closeButton} type="button" onClick={closeSidebar}>
               ×
@@ -117,11 +118,11 @@ function TopBar({ children }) {
           </div>
 
           <div className={styles.sidebarProfile}>
-            <div className={styles.sidebarAvatar}>{displayName.charAt(0).toUpperCase()}</div>
+            <span className={styles.sidebarAvatar}>{displayName.charAt(0).toUpperCase()}</span>
             <div className={styles.sidebarProfileText}>
-              <div className={styles.sidebarProfileName}>{displayName}</div>
-              <div className={styles.sidebarProfileEmail}>{displayEmail}</div>
-              <div className={styles.sidebarProfileMeta}>{displayPosition}</div>
+              <h3 className={styles.sidebarProfileName}>{displayName}</h3>
+              <p className={styles.sidebarProfileEmail}>{displayEmail}</p>
+              <p className={styles.sidebarProfileMeta}>{displayPosition}</p>
             </div>
           </div>
 
@@ -160,9 +161,7 @@ function TopBar({ children }) {
           onClick={closeSidebar}
         />
       ) : null}
-
-      <main className={styles.content}>{children}</main>
-    </div>
+    </>
   );
 }
 

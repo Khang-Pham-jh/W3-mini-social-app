@@ -172,6 +172,7 @@
 }
 
 .sidebarTitle {
+  margin: 0;
   font-size: 18px;
   line-height: 22px;
   font-weight: 800;
@@ -179,6 +180,7 @@
 }
 
 .sidebarSubtitle {
+  margin: 0;
   font-size: 13px;
   line-height: 16px;
   color: #6f7883;
@@ -221,6 +223,7 @@
 }
 
 .sidebarProfileName {
+  margin: 0;
   font-size: 15px;
   font-weight: 800;
   color: #181c1d;
@@ -228,6 +231,7 @@
 
 .sidebarProfileEmail,
 .sidebarProfileMeta {
+  margin: 0;
   font-size: 13px;
   color: #6f7883;
 }
