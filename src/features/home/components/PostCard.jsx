@@ -4,6 +4,7 @@ import AuthorHoverCard from './AuthorHoverCard';
 import RoleBadge from './RoleBadge.jsx';
 import PostInteractions from './post-interactions/PostInteractions';
 import styles from './PostCard.module.css';
+import PostInteractions from './post-interactions/PostInteractions.jsx';
 
 function getAuthorName(post) {
   return post.author?.name || 'Unknown user';
@@ -20,7 +21,7 @@ function formatPostTime(createdAt) {
   }).format(new Date(createdAt));
 }
 
-function PostCard({ post, onHidePost }) {
+function PostCard({ post, onHidePost, currentUser, currentProfile }) {
   const navigate = useNavigate();
   const { currentUser, currentProfile } = useAuth();
   const authorName = getAuthorName(post);
