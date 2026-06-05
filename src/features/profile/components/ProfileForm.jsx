@@ -321,7 +321,7 @@ function ProfileForm({ profile, isSubmitting, submitError, onSubmit }) {
               <button
                 className={styles.saveButton}
                 type="submit"
-                disabled={isSaveDisabled}
+                // disabled={isSaveDisabled}
               >
                 {isSubmitting ? 'Saving...' : 'Save Profile'}
               </button>
