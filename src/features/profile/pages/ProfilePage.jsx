@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../auth/context/AuthContext';
-import TopBar from '../../../shared/components/TopBar';
+import PageLayout from '../../../shared/components/PageLayout';
 import { supabase } from '../../../libs/supabase';
 import styles from './ProfilePage.module.css';
 
@@ -25,7 +25,7 @@ function ProfilePage() {
 
       setIsLoading(true);
       const { data, error } = await supabase
-        .from('profiles')
+        .from('public_profiles')
         .select('*')
         .eq('id', targetProfileId)
         .single();
@@ -55,7 +55,7 @@ function ProfilePage() {
   const displayPosition = displayProfile?.position || 'Not set';
 
   return (
-    <TopBar>
+    <PageLayout>
       <main className={styles.profilePage}>
         <section className={styles.profileCard}>
           <p className={styles.eyebrow}>Profile</p>
@@ -93,7 +93,7 @@ function ProfilePage() {
           )}
         </section>
       </main>
-    </TopBar>
+    </PageLayout>
   );
 }
 

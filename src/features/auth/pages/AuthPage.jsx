@@ -4,7 +4,7 @@ import jhLogo from '../../../assets/JH-logo-name.png';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
 import PageLayout from '../../../shared/components/PageLayout';
-import { AUTH_MODES } from '../constants/auth';
+import { AUTH_MODES } from '../../../shared/constants/auth.js';
 import styles from './AuthPage.module.css';
 
 class AuthPage extends Component {

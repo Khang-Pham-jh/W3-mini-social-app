@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import jhLogo from '../../assets/JH-logo.png';
 import ModeSwitch from './ModeSwitch';
-import { AUTH_MODES } from '../../features/auth/constants/auth';
+import { AUTH_MODES } from '../constants/auth.js';
 import styles from './TopBar.module.css';
 
 function TopBar() {
@@ -12,8 +12,6 @@ function TopBar() {
   const { currentProfile, currentUser, isLoggedIn, logout } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const authRouteNames = ['/', '/login', '/signup'];
-  const isAuthRoute = authRouteNames.includes(location.pathname);
   const authMode = location.pathname === '/signup' ? AUTH_MODES.SIGNUP : AUTH_MODES.LOGIN;
 
   useEffect(() => {
@@ -59,16 +57,6 @@ function TopBar() {
           </div>
         </div>
 
-        {/* {isLoggedIn ? (
-          <div className={`${styles.sidebarProfile} ${styles.tabletProfile}`}>
-            <div className={styles.sidebarAvatar}>{displayName.charAt(0).toUpperCase()}</div>
-            <div className={styles.sidebarProfileText}>
-              <div className={styles.sidebarProfileName}>{displayName}</div>
-              <div className={styles.sidebarProfileEmail}>{displayEmail}</div>
-              <div className={styles.sidebarProfileMeta}>{displayPosition}</div>
-            </div>
-          </div>
-        ) : null} */}
 
         {isLoggedIn ? (
           <nav className={styles.desktopNav} aria-label="Primary navigation">
@@ -123,19 +111,19 @@ function TopBar() {
               <h2 className={styles.sidebarTitle}>Navigation</h2>
               <p className={styles.sidebarSubtitle}>Bulletin workspace</p>
             </div>
-            <button className={styles.closeButton} type="button" onClick={closeSidebar}>
+            <button className={styles.closeButton} type="button" onClick={closeSidebar} aria-label="Close sidebar">
               ×
             </button>
           </div>
 
-          <div className={styles.sidebarProfile}>
-            <span className={styles.sidebarAvatar}>{displayName.charAt(0).toUpperCase()}</span>
+          <Link to="/profile" onClick={closeSidebar} className={styles.sidebarProfile}>
+            <div className={styles.sidebarAvatar}>{displayName.charAt(0).toUpperCase()}</div>
             <div className={styles.sidebarProfileText}>
               <h3 className={styles.sidebarProfileName}>{displayName}</h3>
               <p className={styles.sidebarProfileEmail}>{displayEmail}</p>
               <p className={styles.sidebarProfileMeta}>{displayPosition}</p>
             </div>
-          </div>
+          </Link>
 
           <nav className={styles.sidebarNav} aria-label="Sidebar navigation">
             <NavLink

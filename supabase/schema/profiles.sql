@@ -52,3 +52,14 @@ create trigger set_profiles_updated_at
 before update on public.profiles
 for each row
 execute function public.set_profiles_updated_at();
+
+DROP POLICY IF EXISTS "Allow read profiles" ON public.profiles;
+
+CREATE OR REPLACE VIEW public.public_profiles 
+WITH (security_invoker = off) -- Runs as the view creator (bypassing RLS)
+AS
+  SELECT id, name, position, avatar_url
+  FROM public.profiles;
+
+-- 3. Grant authenticated users access to this view
+GRANT SELECT ON public.public_profiles TO authenticated;

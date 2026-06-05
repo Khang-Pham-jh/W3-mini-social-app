@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import TopBar from '../../../shared/components/TopBar';
-import PostComposer from '../components/PostComposer.jsx';
+import PageLayout from '../../../shared/components/PageLayout';
+import PostComposer from '../components/PostComposer';
 import PostFeed from '../components/PostFeed';
 import {
   DEFAULT_POST_PAGE_SIZE,
