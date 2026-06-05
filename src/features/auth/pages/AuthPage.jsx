@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import jhLogo from '../../../assets/JH-logo-name.png';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
+import PageLayout from '../../../shared/components/PageLayout';
+import { AUTH_MODES } from '../../../shared/constants/auth.js';
 import styles from './AuthPage.module.css';
 
 class AuthPage extends Component {
@@ -31,7 +33,7 @@ class AuthPage extends Component {
       activeMode: nextMode,
     });
 
-    this.props.navigate(nextMode === 'signup' ? '/signup' : '/login');
+    this.props.navigate(nextMode === AUTH_MODES.SIGNUP ? '/signup' : '/login');
   };
 
   renderActiveForm() {
@@ -40,7 +42,7 @@ class AuthPage extends Component {
       onSwitchMode: this.handleModeChange,
     };
 
-    if (this.state.activeMode === 'signup') {
+    if (this.state.activeMode === AUTH_MODES.SIGNUP) {
       return <SignupForm {...sharedProps} />;
     }
 
@@ -51,36 +53,21 @@ class AuthPage extends Component {
     const { activeMode } = this.state;
 
     return (
-      <main className={styles.authPageContainer}>
-        <section className={styles.authCard}>
-          <div className={styles.headerRow}>
-            <img className={styles.logo} src={jhLogo} alt="JH logo" />
-            <div className={styles.modeSwitch} role="tablist" aria-label="Authentication mode">
-              <button
-                className={activeMode === 'login' ? styles.activeModeButton : styles.modeButton}
-                type="button"
-                onClick={() => this.handleModeChange('login')}
-              >
-                Log in
-              </button>
-              <button
-                className={activeMode === 'signup' ? styles.activeModeButton : styles.modeButton}
-                type="button"
-                onClick={() => this.handleModeChange('signup')}
-              >
-                Sign up
-              </button>
+      <PageLayout>
+        <main className={styles.authPageContainer}>
+          <section className={styles.authCard}>
+            <div className={styles.headerRow}>
+              <img className={styles.logo} src={jhLogo} alt="JH logo" />
             </div>
-          </div>
 
-          <div className={styles.contentArea}>
-
-            <div className={styles.formPanel}>
-              <div className={styles.formContent}>{this.renderActiveForm()}</div>
+            <div className={styles.contentArea}>
+              <div className={styles.formPanel}>
+                <div className={styles.formContent}>{this.renderActiveForm()}</div>
+              </div>
             </div>
-          </div>
-        </section>
-      </main>
+          </section>
+        </main>
+      </PageLayout>
     );
   }
 }

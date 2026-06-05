@@ -6,6 +6,7 @@ import { POSITIONS } from '../constants/positions';
 import { validateSignupForm } from '../../../shared/utils/validation';
 import TextField from '../../../shared/components/TextField';
 import PositionSelect from '../../../shared/components/PositionSelect';
+import { AUTH_MODES } from '../../../shared/constants/auth.js';
 import styles from './SignupForm.module.css';
 
 const initialSignupValues = {
@@ -116,7 +117,7 @@ class SignupForm extends Component {
                 href="/login"
                 onClick={(event) => {
                   event.preventDefault();
-                  this.props.onSwitchMode?.('login');
+                  this.props.onSwitchMode?.(AUTH_MODES.LOGIN);
                 }}
               >
                 Log in
