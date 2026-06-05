@@ -24,7 +24,8 @@
 }
 
 .actions {
-  display: flex;
+  display: grid;
+  gap: 16px;
   justify-content: flex-end;
   margin-top: 24px;
 }

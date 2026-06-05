@@ -31,16 +31,19 @@
 
 .previewGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, 148px);
   gap: 14px;
+  justify-content: start;
 }
 
 .previewCard {
   display: grid;
   gap: 10px;
+  width: 148px;
   padding: 10px;
   border-radius: 20px;
   background: #f4f8fa;
+  box-sizing: border-box;
 }
 
 .previewImage,
@@ -83,4 +86,14 @@
   margin: 0;
   color: #b42318;
   font-size: 14px;
+}
+
+@media (max-width: 480px) {
+  .previewGrid {
+    grid-template-columns: repeat(auto-fill, 132px);
+  }
+
+  .previewCard {
+    width: 132px;
+  }
 }

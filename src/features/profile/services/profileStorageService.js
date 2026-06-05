@@ -2,7 +2,7 @@ import { isSupabaseConfigured, supabase } from '../../../libs/supabase';
 import { normalizeText } from '../../../shared/utils/text';
 
 const AVATAR_BUCKET = 'profile-avatars';
-const HIGHLIGHTS_BUCKET = 'profile-highlights';
+const IMAGE_BUCKET = 'post-images';
 
 const MISSING_SUPABASE_CONFIG_MESSAGE =
   'Supabase environment variables are missing. Please configure the app before continuing.';
@@ -108,7 +108,7 @@ function getBucketAndPathFromUrl(url) {
 
   const [, bucketName, encodedPath] = match;
 
-  if (bucketName !== HIGHLIGHTS_BUCKET) {
+  if (bucketName !== IMAGE_BUCKET) {
     return null;
   }
 
@@ -165,7 +165,7 @@ export async function uploadHighlightImages({ userId, files } = {}) {
   }
 
   return uploadFiles({
-    bucketName: HIGHLIGHTS_BUCKET,
+    bucketName: IMAGE_BUCKET,
     userId,
     files,
     folder: 'highlights',

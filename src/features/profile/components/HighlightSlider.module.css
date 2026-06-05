@@ -25,40 +25,6 @@
   color: #14212c;
 }
 
-.controls {
-  display: flex;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.controlButton {
-  min-height: 42px;
-  padding: 0 16px;
-  border: 1px solid #bfd0da;
-  border-radius: 999px;
-  background: #fff;
-  color: #233241;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.controlButton:hover:not(:disabled) {
-  transform: translateY(-1px);
-  border-color: #8fb4c8;
-}
-
-.controlButton:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
-}
-
-.controlButton:focus-visible,
 .viewport:focus-visible {
   outline: 2px solid #00629d;
   outline-offset: 3px;
@@ -87,10 +53,10 @@
 .track {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(0, calc((100% - 32px) / 3));
-  gap: 16px;
+  grid-auto-columns: minmax(280px, 325px);
+  gap: 22px;
   margin: 0;
-  padding: 0 0 8px;
+  padding: 0 0 10px;
   list-style: none;
 }
 
@@ -100,11 +66,7 @@
 
 .card {
   height: 100%;
-  overflow: hidden;
-  border-radius: 22px;
-  background: #fff;
-  border: 1px solid rgba(191, 199, 211, 0.7);
-  box-shadow: 0 16px 34px rgba(17, 24, 39, 0.08);
+  background: transparent;
 }
 
 .imageFrame {
@@ -127,20 +89,30 @@
 
 .cardBody {
   display: grid;
-  gap: 8px;
-  padding: 16px;
+  gap: 4px;
+  padding: 12px 0 0;
 }
 
 .cardTitle {
   margin: 0;
-  font-size: 1rem;
-  color: #14212c;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #111820;
+  line-height: 1.35;
+}
+
+.cardSubtitle {
+  margin: 0;
+  color: #111820;
+  font-size: 0.92rem;
+  line-height: 1.35;
 }
 
 .cardDescription {
   margin: 0;
-  color: #556370;
-  line-height: 1.6;
+  color: #70767d;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
 .emptyState {
@@ -157,7 +129,8 @@
 
 @media (max-width: 1024px) {
   .track {
-    grid-auto-columns: minmax(0, calc((100% - 16px) / 2));
+    grid-auto-columns: minmax(260px, calc((100% - 18px) / 2));
+    gap: 18px;
   }
 }
 
@@ -167,15 +140,8 @@
     flex-direction: column;
   }
 
-  .controls {
-    width: 100%;
-  }
-
-  .controlButton {
-    flex: 1;
-  }
-
   .track {
     grid-auto-columns: minmax(0, 100%);
+    gap: 14px;
   }
 }

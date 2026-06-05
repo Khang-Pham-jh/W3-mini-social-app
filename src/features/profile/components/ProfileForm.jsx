@@ -73,19 +73,6 @@ function createInitialValues(profile) {
   };
 }
 
-function hasAvatarValue(value) {
-  return Boolean(value?.existingUrl || value?.newFile);
-}
-
-function getActiveHighlightCount(value) {
-  const existingUrls = Array.isArray(value?.existingUrls) ? value.existingUrls : [];
-  const removedUrls = new Set(Array.isArray(value?.removedUrls) ? value.removedUrls : []);
-  const remainingExistingCount = existingUrls.filter((url) => !removedUrls.has(url)).length;
-  const newFilesCount = Array.isArray(value?.newFiles) ? value.newFiles.length : 0;
-
-  return remainingExistingCount + newFilesCount;
-}
-
 function validateDob(value) {
   const normalizedValue = String(value ?? '').trim();
 
@@ -128,10 +115,6 @@ function validateDob(value) {
 function validateProfileForm(values) {
   const errors = {};
 
-  if (!hasAvatarValue(values.avatar)) {
-    errors.avatar = 'Avatar is required.';
-  }
-
   if (!String(values.name ?? '').trim()) {
     errors.name = 'Name is required.';
   }
@@ -143,10 +126,6 @@ function validateProfileForm(values) {
 
   if (!Array.isArray(values.position) || values.position.length === 0) {
     errors.position = 'Position is required.';
-  }
-
-  if (getActiveHighlightCount(values.highlightImages) === 0) {
-    errors.highlightImages = 'At least one highlight image is required.';
   }
 
   return errors;
@@ -321,7 +300,7 @@ function ProfileForm({ profile, isSubmitting, submitError, onSubmit }) {
               <button
                 className={styles.saveButton}
                 type="submit"
-                // disabled={isSaveDisabled}
+                disabled={isSaveDisabled}
               >
                 {isSubmitting ? 'Saving...' : 'Save Profile'}
               </button>

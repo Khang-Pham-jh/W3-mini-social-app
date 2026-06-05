@@ -117,14 +117,14 @@ function HighlightImagesUploadField({ input, meta, label }) {
           <div className={styles.previewCard} key={`${preview.key}-${index}`}>
             <img className={styles.previewImage} src={preview.url} alt="New highlight preview" />
             <button className={styles.removeButton} type="button" onClick={() => handleRemoveNewFile(index)}>
-              Remove new
+              Remove
             </button>
           </div>
         ))}
       </div>
 
       <p className={styles.helperText}>
-        Keep at least one highlight image. Files are only uploaded when you save.
+        Add optional highlight images. Files are only uploaded when you save.
       </p>
       <p className={styles.fieldError}>{fieldError}</p>
     </div>
@@ -132,4 +132,3 @@ function HighlightImagesUploadField({ input, meta, label }) {
 }
 
 export default HighlightImagesUploadField;
-
