@@ -10,7 +10,7 @@ function LikeButton({ count, isActive, onClick, disabled }) {
       aria-label={isActive ? 'Remove like' : 'Like'}
       aria-pressed={isActive}
     >
-      <span className={styles.icon} aria-hidden="true">👍</span>
+      <span className={`${styles.icon} ${styles.iconThumbsUp}`} aria-hidden="true" />
       <span className={styles.count}>{count > 0 ? count : ''}</span>
     </button>
   );

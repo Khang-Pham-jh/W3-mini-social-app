@@ -47,7 +47,7 @@ function ImageUploadField({ input: { value, onChange } }) {
       {previews.length > 0 ? (
         <ul className={styles.previewContainer} aria-label="Image previews">
           {previews.map((preview, index) => (
-            <li key={preview.url} className={styles.previewWrapper}>
+            <li key={`${preview.file.name}-${preview.file.size}-${index}`} className={styles.previewWrapper}>
               <img src={preview.url} alt="Upload preview" className={styles.previewImage} />
               <button type="button" onClick={() => handleRemove(index)} className={styles.removeButton} aria-label="Remove image">
                 ×

@@ -5,7 +5,7 @@ import TextareaField from '../../../shared/components/TextareaField';
 import ImageUploadField from '../../../shared/components/ImageUploadField';
 import styles from './PostComposer.module.css';
 
-function PostComposer({ currentProfile, currentUser, isSubmitting, onCreatePost }) {
+function PostComposer({ currentProfile, currentUser, onCreatePost }) {
   const [formError, setFormError] = useState('');
   const displayName = getDisplayName(currentProfile, currentUser);
 
@@ -31,11 +31,11 @@ function PostComposer({ currentProfile, currentUser, isSubmitting, onCreatePost 
     <Form
       onSubmit={onSubmit}
       initialValues={{ content: '', imageFiles: [] }}
-      render={({ handleSubmit, values }) => {
+      render={({ handleSubmit, values, submitting }) => {
         const content = values.content || '';
         const imageFiles = values.imageFiles || [];
         const hasContent = content.trim().length > 0;
-        const canSubmit = !isSubmitting && (hasContent || imageFiles.length > 0);
+        const canSubmit = !submitting && (hasContent || imageFiles.length > 0);
 
         return (
           <form className={styles.composer} onSubmit={handleSubmit}>
@@ -58,7 +58,7 @@ function PostComposer({ currentProfile, currentUser, isSubmitting, onCreatePost 
 
             <div className={styles.actions}>
               <button className={styles.submitButton} type="submit" disabled={!canSubmit}>
-                {isSubmitting ? 'Posting...' : 'Post'}
+                {submitting ? 'Posting...' : 'Post'}
               </button>
             </div>
           </form>

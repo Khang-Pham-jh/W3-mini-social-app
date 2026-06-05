@@ -1,41 +1,50 @@
-import { useState } from 'react';
+import { Form, Field } from 'react-final-form';
 import styles from './PostInteractions.module.css';
 
 function CommentForm({ initialValue = '', onSubmit, isSubmitting, onCancel, placeholder = 'Write a comment...' }) {
-  const [content, setContent] = useState(initialValue);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (!content.trim() || isSubmitting) return;
+  const handleFormSubmit = async (values, form) => {
+    const content = (values.content || '').trim();
+    if (!content || isSubmitting) return;
 
     const { success } = await onSubmit(content);
     if (success && !initialValue) {
-      setContent(''); 
+      form.reset();
     }
   };
 
   return (
-    <form className={styles.commentForm} onSubmit={handleSubmit}>
-      <textarea
-        className={styles.textarea}
-        value={content}
-        onChange={(event) => setContent(event.target.value)}
-        placeholder={placeholder}
-        disabled={isSubmitting}
-        rows={2}
-        aria-label="Comment content"
-      />
-      <div className={styles.formActions}>
-        {onCancel && (
-          <button type="button" className={styles.cancelButton} onClick={onCancel} disabled={isSubmitting}>
-            Cancel
-          </button>
-        )}
-        <button type="submit" className={styles.submitButton} disabled={!content.trim() || isSubmitting}>
-          {isSubmitting ? 'Saving...' : 'Post'}
-        </button>
-      </div>
-    </form>
+    <Form
+      onSubmit={handleFormSubmit}
+      initialValues={{ content: initialValue }}
+      render={({ handleSubmit, values }) => {
+        const currentContent = (values.content || '').trim();
+        const canSubmit = currentContent.length > 0 && !isSubmitting;
+
+        return (
+          <form className={styles.commentForm} onSubmit={handleSubmit}>
+            <Field
+              name="content"
+              component="textarea"
+              className={styles.textarea}
+              placeholder={placeholder}
+              disabled={isSubmitting}
+              rows={2}
+              aria-label="Comment content"
+            />
+            <div className={styles.formActions}>
+              {onCancel && (
+                <button type="button" className={styles.cancelButton} onClick={onCancel} disabled={isSubmitting}>
+                  Cancel
+                </button>
+              )}
+              <button type="submit" className={styles.submitButton} disabled={!canSubmit}>
+                {isSubmitting ? 'Saving...' : 'Post'}
+              </button>
+            </div>
+          </form>
+        );
+      }}
+    />
   );
 }
 

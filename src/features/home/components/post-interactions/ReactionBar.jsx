@@ -32,7 +32,7 @@ function ReactionBar({
         onClick={onToggleComments}
         aria-expanded={isCommentsOpen}
       >
-        <span className={styles.icon} aria-hidden="true">💬</span>
+        <span className={`${styles.icon} ${styles.iconChatBubble}`} aria-hidden="true" />
         <span className={styles.count}>{commentsCount > 0 ? commentsCount : ''}</span>
       </button>
     </div>

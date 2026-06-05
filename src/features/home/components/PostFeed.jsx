@@ -1,5 +1,6 @@
 import styles from './PostFeed.module.css';
 import PostCard from './PostCard';
+import EndOfFeedMessage from '../../../shared/components/EndOfFeedMessage';
 
 function PostFeed({
   error,
@@ -36,10 +37,18 @@ function PostFeed({
         )
       )}
 
-      <div className={styles.loadMoreTrigger} ref={loadMoreTriggerRef}>
-        {isLoadingMore ? 'Loading more posts...' : null}
-        {!isLoadingMore && hasMore ? ' ' : null}
-      </div>
+      {hasMore || isLoadingMore ? (
+        <div className={styles.loadMoreTrigger} ref={loadMoreTriggerRef}>
+          {isLoadingMore ? 'Loading more posts...' : null}
+          {!isLoadingMore && hasMore ? ' ' : null}
+        </div>
+      ) : null}
+
+      <EndOfFeedMessage
+        hasMore={hasMore}
+        isLoading={isLoadingMore}
+        itemCount={posts.length}
+      />
     </div>
   );
 }
