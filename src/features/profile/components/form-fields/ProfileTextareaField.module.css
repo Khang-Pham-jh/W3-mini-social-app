@@ -1,0 +1,17 @@
+.fieldGroup {
+  display: grid;
+  gap: 10px;
+}
+
+.fieldLabel {
+  font-size: 13px;
+  font-weight: 800;
+  color: #182531;
+}
+
+.fieldError {
+  min-height: 20px;
+  margin: 0;
+  color: #b42318;
+  font-size: 14px;
+}

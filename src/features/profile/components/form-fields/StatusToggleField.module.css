@@ -1,0 +1,35 @@
+.fieldGroup {
+  display: grid;
+  gap: 10px;
+}
+
+.fieldLabel {
+  font-size: 13px;
+  font-weight: 800;
+  color: #182531;
+}
+
+.toggleGroup {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.toggleButton,
+.toggleActive {
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid #bfd0da;
+  background: #f7fafc;
+  color: #31404d;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.toggleActive {
+  border-color: #00629d;
+  background: #00629d;
+  color: #fff;
+}

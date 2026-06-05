@@ -26,9 +26,7 @@ function PostCard({ post, onHidePost, currentUser, currentProfile }) {
 
   const handleProfileClick = () => {
     if (post.author?.id) {
-      // Navigating to exact `/profile` path prevents 404s on unconfigured dynamic routes.
-      // The target ID is securely passed via router state.
-      navigate('/profile', { state: { profileId: post.author.id } });
+      navigate(`/profile/${post.author.id}`);
     }
   };
 
@@ -48,13 +46,15 @@ function PostCard({ post, onHidePost, currentUser, currentProfile }) {
             </p>
           </div>
         </AuthorHoverCard>
-        <button
-          className={styles.hideButton}
-          type="button"
-          onClick={() => onHidePost(post.id)}
-        >
-          Hide
-        </button>
+        {typeof onHidePost === 'function' ? (
+          <button
+            className={styles.hideButton}
+            type="button"
+            onClick={() => onHidePost(post.id)}
+          >
+            Hide
+          </button>
+        ) : null}
       </header>
 
       {post.content ? <p className={styles.postContent}>{post.content}</p> : null}

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './ImageUploadField.module.css';
 
 function ImageUploadField({ input: { value, onChange } }) {
@@ -15,27 +15,27 @@ function ImageUploadField({ input: { value, onChange } }) {
     setPreviews(objectUrls);
 
     return () => {
-      objectUrls.forEach((p) => URL.revokeObjectURL(p.url));
+      objectUrls.forEach((preview) => URL.revokeObjectURL(preview.url));
     };
   }, [value]);
 
-  const handleChange = (event) => {
+  function handleChange(event) {
     if (event.target.files && event.target.files.length > 0) {
       const currentFiles = Array.isArray(value) ? value : [];
       const newFiles = [...currentFiles, ...Array.from(event.target.files)];
       onChange(newFiles);
     }
-    
+
     if (inputRef.current) {
       inputRef.current.value = '';
     }
-  };
+  }
 
-  const handleRemove = (indexToRemove) => {
+  function handleRemove(indexToRemove) {
     const currentFiles = Array.isArray(value) ? value : [];
-    const newFiles = currentFiles.filter((_, idx) => idx !== indexToRemove);
+    const newFiles = currentFiles.filter((_, index) => index !== indexToRemove);
     onChange(newFiles);
-  };
+  }
 
   return (
     <div className={styles.container}>
@@ -47,10 +47,18 @@ function ImageUploadField({ input: { value, onChange } }) {
       {previews.length > 0 ? (
         <ul className={styles.previewContainer} aria-label="Image previews">
           {previews.map((preview, index) => (
-            <li key={`${preview.file.name}-${preview.file.size}-${index}`} className={styles.previewWrapper}>
+            <li
+              key={`${preview.file.name}-${preview.file.size}-${index}`}
+              className={styles.previewWrapper}
+            >
               <img src={preview.url} alt="Upload preview" className={styles.previewImage} />
-              <button type="button" onClick={() => handleRemove(index)} className={styles.removeButton} aria-label="Remove image">
-                ×
+              <button
+                type="button"
+                onClick={() => handleRemove(index)}
+                className={styles.removeButton}
+                aria-label="Remove image"
+              >
+                x
               </button>
             </li>
           ))}

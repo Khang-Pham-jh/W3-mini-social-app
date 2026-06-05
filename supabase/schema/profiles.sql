@@ -4,6 +4,10 @@ create table if not exists public.profiles (
   name text not null,
   position text not null,
   avatar_url text,
+  dob date,
+  bio text,
+  status text not null default 'active',
+  highlight_images text[] not null default '{}',
   created_at timestamp with time zone not null default now(),
   updated_at timestamp with time zone not null default now()
 );
@@ -11,7 +15,22 @@ create table if not exists public.profiles (
 alter table public.profiles
   add column if not exists created_at timestamp with time zone not null default now(),
   add column if not exists updated_at timestamp with time zone not null default now(),
-  add column if not exists avatar_url text;
+  add column if not exists avatar_url text,
+  add column if not exists dob date,
+  add column if not exists bio text,
+  add column if not exists status text not null default 'active',
+  add column if not exists highlight_images text[] not null default '{}';
+
+update public.profiles
+set
+  status = coalesce(nullif(status, ''), 'active'),
+  highlight_images = coalesce(highlight_images, '{}');
+
+alter table public.profiles
+  alter column status set default 'active',
+  alter column status set not null,
+  alter column highlight_images set default '{}',
+  alter column highlight_images set not null;
 
 alter table public.profiles enable row level security;
 
@@ -58,7 +77,15 @@ DROP POLICY IF EXISTS "Allow read profiles" ON public.profiles;
 CREATE OR REPLACE VIEW public.public_profiles 
 WITH (security_invoker = off) -- Runs as the view creator (bypassing RLS)
 AS
-  SELECT id, name, position, avatar_url
+  SELECT
+    id,
+    name,
+    position,
+    avatar_url,
+    dob,
+    bio,
+    status,
+    highlight_images
   FROM public.profiles;
 
 -- 3. Grant authenticated users access to this view

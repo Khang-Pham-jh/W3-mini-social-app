@@ -1,0 +1,181 @@
+.sliderSection {
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.kicker {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6a7886;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #14212c;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.controlButton {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid #bfd0da;
+  border-radius: 999px;
+  background: #fff;
+  color: #233241;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.controlButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: #8fb4c8;
+}
+
+.controlButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.controlButton:focus-visible,
+.viewport:focus-visible {
+  outline: 2px solid #00629d;
+  outline-offset: 3px;
+}
+
+.viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #bfd0da transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.viewport::-webkit-scrollbar {
+  height: 10px;
+}
+
+.viewport::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #bfd0da;
+}
+
+.track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, calc((100% - 32px) / 3));
+  gap: 16px;
+  margin: 0;
+  padding: 0 0 8px;
+  list-style: none;
+}
+
+.cardItem {
+  scroll-snap-align: start;
+}
+
+.card {
+  height: 100%;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #fff;
+  border: 1px solid rgba(191, 199, 211, 0.7);
+  box-shadow: 0 16px 34px rgba(17, 24, 39, 0.08);
+}
+
+.imageFrame {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #edf4f7;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.card:hover .image {
+  transform: scale(1.03);
+}
+
+.cardBody {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1rem;
+  color: #14212c;
+}
+
+.cardDescription {
+  margin: 0;
+  color: #556370;
+  line-height: 1.6;
+}
+
+.emptyState {
+  padding: 28px 20px;
+  border-radius: 20px;
+  background: #f2f7f9;
+}
+
+.emptyText {
+  margin: 0;
+  color: #4b5966;
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .track {
+    grid-auto-columns: minmax(0, calc((100% - 16px) / 2));
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .controls {
+    width: 100%;
+  }
+
+  .controlButton {
+    flex: 1;
+  }
+
+  .track {
+    grid-auto-columns: minmax(0, 100%);
+  }
+}

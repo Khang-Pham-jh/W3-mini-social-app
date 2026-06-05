@@ -1,0 +1,86 @@
+.fieldGroup {
+  display: grid;
+  gap: 12px;
+}
+
+.fieldLabel {
+  font-size: 13px;
+  font-weight: 800;
+  color: #182531;
+}
+
+.uploadButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid #c0d0da;
+  background: #f7fafc;
+  color: #22313f;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fileInput {
+  display: none;
+}
+
+.previewGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+.previewCard {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 20px;
+  background: #f4f8fa;
+}
+
+.previewImage,
+.previewImageMuted {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.previewImageMuted {
+  opacity: 0.45;
+}
+
+.removeButton,
+.restoreButton {
+  min-height: 38px;
+  border-radius: 999px;
+  border: 1px solid #c0d0da;
+  background: #fff;
+  color: #22313f;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.restoreButton {
+  background: #e7f3ec;
+  color: #0f6c46;
+}
+
+.helperText {
+  margin: 0;
+  color: #5d6b79;
+  line-height: 1.6;
+}
+
+.fieldError {
+  min-height: 20px;
+  margin: 0;
+  color: #b42318;
+  font-size: 14px;
+}

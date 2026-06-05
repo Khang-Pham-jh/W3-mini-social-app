@@ -31,10 +31,44 @@ export async function upsertProfileFromUser(user) {
   }
 
   const profilePayload = buildProfilePayload(user);
+  const existingProfile = await getProfileByUserId(user.id);
+
+  if (existingProfile) {
+    const patch = {};
+
+    if (profilePayload.email && profilePayload.email !== existingProfile.email) {
+      patch.email = profilePayload.email;
+    }
+
+    if (!normalizeText(existingProfile.name) && profilePayload.name) {
+      patch.name = profilePayload.name;
+    }
+
+    if (!normalizeText(existingProfile.position) && profilePayload.position) {
+      patch.position = profilePayload.position;
+    }
+
+    if (Object.keys(patch).length === 0) {
+      return existingProfile;
+    }
+
+    const { data, error } = await supabase
+      .from(PROFILES_TABLE)
+      .update(patch)
+      .eq('id', user.id)
+      .select()
+      .single();
+
+    if (error) {
+      return existingProfile;
+    }
+
+    return data;
+  }
 
   const { data, error } = await supabase
     .from(PROFILES_TABLE)
-    .upsert(profilePayload, { onConflict: 'id' })
+    .insert(profilePayload)
     .select()
     .single();
 
