@@ -53,10 +53,10 @@ function TopBar() {
       <header className={styles.topBar}>
         <div className={styles.brandArea}>
           <img className={styles.logo} src={jhLogo} alt="JH logo" />
-          <p className={styles.brandText}>
+          <div className={styles.brandText}>
             <strong className={styles.brandName}>W3 Mini Social App</strong>
             <span className={styles.brandNote}>Bulletin workspace</span>
-          </p>
+          </div>
         </div>
 
         {/* {isLoggedIn ? (
@@ -119,10 +119,10 @@ function TopBar() {
           aria-label="Sidebar"
         >
           <div className={styles.sidebarHeader}>
-            <hgroup>
+            <div>
               <h2 className={styles.sidebarTitle}>Navigation</h2>
               <p className={styles.sidebarSubtitle}>Bulletin workspace</p>
-            </hgroup>
+            </div>
             <button className={styles.closeButton} type="button" onClick={closeSidebar}>
               ×
             </button>
