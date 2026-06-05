@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import AuthorHoverCard from './AuthorHoverCard';
-import RoleBadge from './RoleBadge';
+import RoleBadge from './RoleBadge.jsx';
 import styles from './PostCard.module.css';
-import PostInteractions from './post-interactions/PostInteractions.jsx';
 
 function getAuthorName(post) {
   return post.author?.name || 'Unknown user';
@@ -19,7 +18,7 @@ function formatPostTime(createdAt) {
   }).format(new Date(createdAt));
 }
 
-function PostCard({ post, onHidePost, currentUser, currentProfile }) {
+function PostCard({ post, onHidePost }) {
   const navigate = useNavigate();
   const authorName = getAuthorName(post);
   const avatarInitial = authorName.charAt(0).toUpperCase();
@@ -66,12 +65,6 @@ function PostCard({ post, onHidePost, currentUser, currentProfile }) {
           ))}
         </div>
       ) : null}
-
-      <PostInteractions 
-        postId={post.id} 
-        currentUser={currentUser} 
-        currentProfile={currentProfile} 
-      />
     </article>
   );
 }

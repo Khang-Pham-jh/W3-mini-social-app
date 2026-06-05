@@ -14,11 +14,7 @@ const ROLE_COLORS = {
 };
 
 function RoleBadge({ role }) {
-  const userRoles = Array.isArray(role)
-    ? role
-    : typeof role === 'string'
-      ? role.split(',').map((r) => r.trim())
-      : [];
+  const userRoles = normalizeRoles(role);
 
   const normalizedRoles = userRoles.map((r) => r.toLowerCase());
 
@@ -40,3 +36,9 @@ function RoleBadge({ role }) {
 }
 
 export default RoleBadge;
+
+function normalizeRoles(role) {
+  if (Array.isArray(role)) return role;
+  if (typeof role === 'string') return role.split(',').map((r) => r.trim());
+  return [];
+}

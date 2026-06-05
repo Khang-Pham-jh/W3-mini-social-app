@@ -48,42 +48,10 @@
   color: #63717a;
 }
 
-.textarea {
-  width: 100%;
-  min-height: 112px;
-  padding: 14px;
-  border: 1px solid #cfd9df;
-  border-radius: 8px;
-  resize: vertical;
-  font: inherit;
-  color: #172126;
-  box-sizing: border-box;
-}
-
-.textarea:focus {
-  border-color: #00629d;
-  outline: 3px solid rgba(0, 98, 157, 0.14);
-}
-
 .actions {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.imageInput {
-  display: inline-flex;
-  align-items: center;
-  min-height: 40px;
-  color: #00629d;
-  font-size: 14px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.imageInput input {
-  display: none;
+  justify-content: flex-end;
+  margin-top: 4px;
 }
 
 .submitButton {
