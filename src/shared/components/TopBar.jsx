@@ -51,12 +51,11 @@ function TopBar() {
       <header className={styles.topBar}>
         <div className={styles.brandArea}>
           <img className={styles.logo} src={jhLogo} alt="JH logo" />
-          <div className={styles.brandText}>
+          <p className={styles.brandText}>
             <strong className={styles.brandName}>W3 Mini Social App</strong>
             <span className={styles.brandNote}>Bulletin workspace</span>
-          </div>
+          </p>
         </div>
-
 
         {isLoggedIn ? (
           <nav className={styles.desktopNav} aria-label="Primary navigation">
@@ -107,23 +106,23 @@ function TopBar() {
           aria-label="Sidebar"
         >
           <div className={styles.sidebarHeader}>
-            <div>
+            <hgroup>
               <h2 className={styles.sidebarTitle}>Navigation</h2>
               <p className={styles.sidebarSubtitle}>Bulletin workspace</p>
-            </div>
-            <button className={styles.closeButton} type="button" onClick={closeSidebar} aria-label="Close sidebar">
+            </hgroup>
+            <button className={styles.closeButton} type="button" onClick={closeSidebar}>
               ×
             </button>
           </div>
 
-          <Link to="/profile" onClick={closeSidebar} className={styles.sidebarProfile}>
-            <div className={styles.sidebarAvatar}>{displayName.charAt(0).toUpperCase()}</div>
+          <div className={styles.sidebarProfile}>
+            <span className={styles.sidebarAvatar}>{displayName.charAt(0).toUpperCase()}</span>
             <div className={styles.sidebarProfileText}>
               <h3 className={styles.sidebarProfileName}>{displayName}</h3>
               <p className={styles.sidebarProfileEmail}>{displayEmail}</p>
               <p className={styles.sidebarProfileMeta}>{displayPosition}</p>
             </div>
-          </Link>
+          </div>
 
           <nav className={styles.sidebarNav} aria-label="Sidebar navigation">
             <NavLink

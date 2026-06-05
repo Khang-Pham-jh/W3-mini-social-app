@@ -10,21 +10,7 @@ import {
   unhidePost,
 } from '../services/postService';
 import { useAuth } from '../../auth/context/AuthContext';
-import { getPositionLabels } from '../../auth/constants/positions';
-import PageLayout from '../../../shared/components/PageLayout';
 import styles from './HomePage.module.css';
-
-function formatPositions(userMetadata) {
-  if (Array.isArray(userMetadata?.positions) && userMetadata.positions.length > 0) {
-    return getPositionLabels(userMetadata.positions).join(', ');
-  }
-
-  if (typeof userMetadata?.position === 'string' && userMetadata.position.trim()) {
-    return userMetadata.position;
-  }
-
-  return 'Not set';
-}
 
 function HomePage() {
   const { currentProfile, currentUser } = useAuth();
@@ -186,13 +172,13 @@ function HomePage() {
   return (
     <PageLayout>
       <main className={styles.homePage}>
-        <section className={styles.heroCard}>
-          <p className={styles.eyebrow}>Authenticated Area</p>
-          <h1 className={styles.title}>Welcome to W3 Mini Social App</h1>
-          <p className={styles.description}>
-            This placeholder home confirms that Supabase authentication succeeded and the app can
-            restore the session after refresh.
-          </p>
+        <section className={styles.feedColumn} aria-label="Bulletin feed">
+          <PostComposer
+            currentProfile={currentProfile}
+            currentUser={currentUser}
+            isSubmitting={isSubmitting}
+            onCreatePost={handleCreatePost}
+          />
 
           <PostFeed
             error={error}

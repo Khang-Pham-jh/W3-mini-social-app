@@ -1,26 +1,17 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Form, Field } from 'react-final-form';
+import TextareaField from '../../../shared/components/TextareaField';
+import ImageUploadField from '../../../shared/components/ImageUploadField';
 import styles from './PostComposer.module.css';
 
-function getDisplayName(currentProfile, currentUser) {
-  return currentProfile?.name || currentUser?.user_metadata?.name || 'You';
-}
-
 function PostComposer({ currentProfile, currentUser, isSubmitting, onCreatePost }) {
-  const [content, setContent] = useState('');
-  const [imageFiles, setImageFiles] = useState([]);
   const [formError, setFormError] = useState('');
-
-  const hasContent = content.trim().length > 0;
-  const canSubmit = !isSubmitting && (hasContent || imageFiles.length > 0);
   const displayName = getDisplayName(currentProfile, currentUser);
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-
-    if (!canSubmit) {
-      return;
-    }
+  const onSubmit = async (values, form) => {
+    const content = values.content || '';
+    const imageFiles = values.imageFiles || [];
 
     const result = await onCreatePost({
       content,
@@ -32,57 +23,53 @@ function PostComposer({ currentProfile, currentUser, isSubmitting, onCreatePost 
       return;
     }
 
-    setContent('');
-    setImageFiles([]);
     setFormError('');
-  }
-
-  function handleImageChange(event) {
-    setImageFiles(Array.from(event.target.files ?? []));
-  }
+    form.reset();
+  };
 
   return (
-    <form className={styles.composer} onSubmit={handleSubmit}>
-      <div className={styles.composerHeader}>
-        <Link to="/profile" style={{ textDecoration: 'none' }}>
-          <div className={styles.avatar}>{displayName.charAt(0).toUpperCase()}</div>
-        </Link>
-        <div>
-          <p className={styles.title}>Create post</p>
-          <p className={styles.subtitle}>
-            Posting as <Link to="/profile" style={{ color: 'inherit', textDecoration: 'none', fontWeight: 'bold' }}>{displayName}</Link>
-          </p>
-        </div>
-      </div>
+    <Form
+      onSubmit={onSubmit}
+      initialValues={{ content: '', imageFiles: [] }}
+      render={({ handleSubmit, values }) => {
+        const content = values.content || '';
+        const imageFiles = values.imageFiles || [];
+        const hasContent = content.trim().length > 0;
+        const canSubmit = !isSubmitting && (hasContent || imageFiles.length > 0);
 
-      <textarea
-        className={styles.textarea}
-        value={content}
-        placeholder="Share an update with your team"
-        rows={4}
-        aria-label="Post content"
-        onChange={(event) => setContent(event.target.value)}
-      />
+        return (
+          <form className={styles.composer} onSubmit={handleSubmit}>
+            <div className={styles.composerHeader}>
+              <Link to="/profile" style={{ textDecoration: 'none' }}>
+                <span className={styles.avatar}>{displayName.charAt(0).toUpperCase()}</span>
+              </Link>
+              <hgroup>
+                <h2 className={styles.title}>Create post</h2>
+                <p className={styles.subtitle}>
+                  Posting as <Link to="/profile" style={{ color: 'inherit', textDecoration: 'none', fontWeight: 'bold' }}>{displayName}</Link>
+                </p>
+              </hgroup>
+            </div>
 
-      <div className={styles.actions}>
-        <label className={styles.imageInput}>
-          Add images
-          <input type="file" accept="image/*" multiple onChange={handleImageChange} />
-        </label>
+            <Field name="content" component={TextareaField} placeholder="Share an update with your team" rows={4} aria-label="Post content" />
+            <Field name="imageFiles" component={ImageUploadField} />
 
-        <button className={styles.submitButton} type="submit" disabled={!canSubmit}>
-          {isSubmitting ? 'Posting...' : 'Post'}
-        </button>
-      </div>
+            {formError ? <p className={styles.errorText}>{formError}</p> : null}
 
-      {imageFiles.length > 0 ? (
-        <p className={styles.helperText}>
-           {imageFiles.length} {imageFiles.length === 1 ? 'image' : 'images'} selected
-         </p>
-      ) : null}
-      {formError ? <p className={styles.errorText}>{formError}</p> : null}
-    </form>
+            <div className={styles.actions}>
+              <button className={styles.submitButton} type="submit" disabled={!canSubmit}>
+                {isSubmitting ? 'Posting...' : 'Post'}
+              </button>
+            </div>
+          </form>
+        );
+      }}
+    />
   );
 }
 
 export default PostComposer;
+
+function getDisplayName(currentProfile, currentUser) {
+  return currentProfile?.name || currentUser?.user_metadata?.name || 'You';
+}

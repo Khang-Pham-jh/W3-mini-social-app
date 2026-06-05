@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import AuthorHoverCard from './AuthorHoverCard';
-import RoleBadge from './RoleBadge';
+import RoleBadge from './RoleBadge.jsx';
 import styles from './PostCard.module.css';
 
 function getAuthorName(post) {

@@ -1,0 +1,89 @@
+.composer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid #d8e1e8;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 18px 40px rgba(25, 44, 54, 0.08);
+}
+
+.composerHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: #00629d;
+  color: #ffffff;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: #172126;
+}
+
+.subtitle,
+.helperText,
+.errorText {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.subtitle,
+.helperText {
+  color: #63717a;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.submitButton {
+  min-width: 96px;
+  min-height: 40px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 999px;
+  background: #00629d;
+  color: #ffffff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.submitButton:disabled {
+  background: #b7c3ca;
+  cursor: not-allowed;
+}
+
+.errorText {
+  color: #b42318;
+}
+
+@media (max-width: 520px) {
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
+}
