@@ -1,10 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../auth/context/AuthContext';
 import AuthorHoverCard from './AuthorHoverCard';
 import RoleBadge from './RoleBadge.jsx';
-import PostInteractions from './post-interactions/PostInteractions';
 import styles from './PostCard.module.css';
-import PostInteractions from './post-interactions/PostInteractions.jsx';
+import PostInteractions from './post-interactions/PostInteractions';
 
 function getAuthorName(post) {
   return post.author?.name || 'Unknown user';
@@ -23,7 +21,6 @@ function formatPostTime(createdAt) {
 
 function PostCard({ post, onHidePost, currentUser, currentProfile }) {
   const navigate = useNavigate();
-  const { currentUser, currentProfile } = useAuth();
   const authorName = getAuthorName(post);
   const avatarInitial = authorName.charAt(0).toUpperCase();
 
@@ -64,16 +61,16 @@ function PostCard({ post, onHidePost, currentUser, currentProfile }) {
 
       {post.imageUrls.length > 0 ? (
         <div className={styles.imageGrid}>
-          {post.imageUrls.map((imageUrl, index) => (
-            <img className={styles.postImage} src={imageUrl} alt={`Post attachment ${index + 1}`} key={imageUrl} />
+          {post.imageUrls.map((imageUrl) => (
+            <img className={styles.postImage} src={imageUrl} alt="" key={imageUrl} />
           ))}
         </div>
       ) : null}
 
       <PostInteractions 
-        postId={post.id} 
-        currentUser={currentUser} 
-        currentProfile={currentProfile} 
+        postId={post.id}
+        currentUser={currentUser}
+        currentProfile={currentProfile}
       />
     </article>
   );
