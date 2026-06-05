@@ -1,0 +1,145 @@
+.interactionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  border-top: 1px solid #e5e9ea;
+  padding-top: 12px;
+}
+
+.reactionBar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  color: #6f7883;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.actionButton:hover:not(:disabled) {
+  background: #f1f5f9;
+}
+
+.actionButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.activeLike {
+  color: #10b981;
+  background: #ecfdf5;
+}
+
+.activeDislike {
+  color: #f43f5e;
+  background: #fff1f2;
+}
+
+.activeComment {
+  color: #00629d;
+  background: #eaf0f4;
+}
+
+.icon {
+  font-size: 16px;
+}
+
+.commentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.addCommentArea {
+  margin-bottom: 8px;
+}
+
+.commentForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.textarea {
+  width: auto;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid #bfc7d3;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.submitButton,
+.cancelButton {
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}
+
+.submitButton {
+  background: #00629d;
+  color: #fff;
+}
+
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cancelButton {
+  background: transparent;
+  color: #3f4851;
+}
+
+.cancelButton:hover {
+  background: #e5e9ea;
+}
+
+.commentList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.commentItem {
+  display: flex;
+  gap: 12px;
+}
+
+.commentAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #00629d;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+/* Note: Add additional minor styling for titles/text as necessary */

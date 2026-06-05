@@ -189,6 +189,8 @@ function HomePage() {
             posts={posts}
             onHidePost={handleHidePost}
             onUnhidePost={handleUnhidePost}
+            currentUser={currentUser}
+            currentProfile={currentProfile}
           />
         </section>
       </main>

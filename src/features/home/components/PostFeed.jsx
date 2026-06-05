@@ -10,6 +10,8 @@ function PostFeed({
   posts,
   onHidePost,
   onUnhidePost,
+  currentUser,
+  currentProfile,
 }) {
   if (isInitialLoading) {
     return <p className={styles.statusText}>Loading posts...</p>;
@@ -31,7 +33,13 @@ function PostFeed({
               </button>
             </div>
           ) : (
-            <PostCard key={post.id} post={post} onHidePost={onHidePost} />
+            <PostCard 
+              key={post.id} 
+              post={post} 
+              onHidePost={onHidePost} 
+              currentUser={currentUser} 
+              currentProfile={currentProfile} 
+            />
           )
         )
       )}
