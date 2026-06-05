@@ -1,5 +1,6 @@
 import LikeButton from './LikeButton';
 import DislikeButton from './DislikeButton';
+import { REACTION_TYPES } from '../../services/reactionService';
 import styles from './PostInteractions.module.css';
 
 function ReactionBar({
@@ -16,14 +17,14 @@ function ReactionBar({
     <div className={styles.reactionBar} role="group" aria-label="Post interactions">
       <LikeButton
         count={likes}
-        isActive={userReaction === 'LIKE'}
-        onClick={() => onReact('LIKE')}
+        isActive={userReaction === REACTION_TYPES.LIKE}
+        onClick={() => onReact(REACTION_TYPES.LIKE)}
         disabled={disabled}
       />
       <DislikeButton
         count={dislikes}
-        isActive={userReaction === 'DISLIKE'}
-        onClick={() => onReact('DISLIKE')}
+        isActive={userReaction === REACTION_TYPES.DISLIKE}
+        onClick={() => onReact(REACTION_TYPES.DISLIKE)}
         disabled={disabled}
       />
       <button

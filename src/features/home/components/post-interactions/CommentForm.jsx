@@ -1,4 +1,5 @@
 import { Form, Field } from 'react-final-form';
+import TextareaField from '../../../../shared/components/TextareaField';
 import styles from './PostInteractions.module.css';
 
 function CommentForm({ initialValue = '', onSubmit, isSubmitting, onCancel, placeholder = 'Write a comment...' }) {
@@ -24,8 +25,7 @@ function CommentForm({ initialValue = '', onSubmit, isSubmitting, onCancel, plac
           <form className={styles.commentForm} onSubmit={handleSubmit}>
             <Field
               name="content"
-              component="textarea"
-              className={styles.textarea}
+              component={TextareaField}
               placeholder={placeholder}
               disabled={isSubmitting}
               rows={2}
