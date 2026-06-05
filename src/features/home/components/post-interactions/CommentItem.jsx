@@ -27,22 +27,37 @@ function CommentItem({ comment, isOwner, onEdit, onDelete }) {
 
   const authorName = comment.author?.name || 'Unknown User';
   const avatarInitial = authorName.charAt(0).toUpperCase();
-  const displayTime = formatCommentDate(comment.created_at);
+  const avatarUrl = comment.author?.avatar_url;
+  const displayTime = new Intl.DateTimeFormat('en', {
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(new Date(comment.created_at));
 
   return (
     <article className={styles.commentItem}>
-      <span className={styles.commentAvatar}>{avatarInitial}</span>
+      <div className={styles.commentAvatarWrapper}>
+        {avatarUrl ? (
+          <img src={avatarUrl} alt={`${authorName}'s avatar`} className={styles.commentAvatarImage} />
+        ) : (
+          <span className={styles.commentAvatarFallback}>{avatarInitial}</span>
+        )}
+      </div>
+      
       <div className={styles.commentContentArea}>
         <header className={styles.commentHeader}>
           <span className={styles.commentAuthor}>{authorName}</span>
-          <span className={styles.commentTime}>{displayTime}</span>
+          <time className={styles.commentTime} dateTime={comment.created_at}>{displayTime}</time>
         </header>
+        
         <p className={styles.commentText}>{comment.content}</p>
+        
         {isOwner ? (
-          <div className={styles.commentActions}>
-            <button type="button" onClick={() => setIsEditing(true)}>Edit</button>
-            <button type="button" onClick={() => onDelete(comment.id)} className={styles.deleteButton}>Delete</button>
-          </div>
+          <footer className={styles.commentActions}>
+            <button type="button" onClick={() => setIsEditing(true)} aria-label="Edit comment">Edit</button>
+            <button type="button" onClick={() => onDelete(comment.id)} className={styles.deleteButton} aria-label="Delete comment">Delete</button>
+          </footer>
         ) : null}
       </div>
     </article>
@@ -50,12 +65,3 @@ function CommentItem({ comment, isOwner, onEdit, onDelete }) {
 }
 
 export default CommentItem;
-
-function formatCommentDate(dateString) {
-  return new Date(dateString).toLocaleDateString(undefined, { 
-    month: 'short', 
-    day: 'numeric', 
-    hour: '2-digit', 
-    minute: '2-digit' 
-  });
-}

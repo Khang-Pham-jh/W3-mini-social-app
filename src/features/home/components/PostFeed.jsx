@@ -1,5 +1,6 @@
 import styles from './PostFeed.module.css';
 import PostCard from './PostCard';
+import EndOfFeedMessage from '../../../shared/components/EndOfFeedMessage';
 
 function PostFeed({
   error,
@@ -10,6 +11,8 @@ function PostFeed({
   posts,
   onHidePost,
   onUnhidePost,
+  currentUser,
+  currentProfile,
 }) {
   if (isInitialLoading) {
     return <p className={styles.statusText}>Loading posts...</p>;
@@ -31,15 +34,29 @@ function PostFeed({
               </button>
             </div>
           ) : (
-            <PostCard key={post.id} post={post} onHidePost={onHidePost} />
+            <PostCard 
+              key={post.id} 
+              post={post} 
+              onHidePost={onHidePost} 
+              currentUser={currentUser} 
+              currentProfile={currentProfile} 
+            />
           )
         )
       )}
 
-      <div className={styles.loadMoreTrigger} ref={loadMoreTriggerRef}>
-        {isLoadingMore ? 'Loading more posts...' : null}
-        {!isLoadingMore && hasMore ? ' ' : null}
-      </div>
+      {hasMore || isLoadingMore ? (
+        <div className={styles.loadMoreTrigger} ref={loadMoreTriggerRef}>
+          {isLoadingMore ? 'Loading more posts...' : null}
+          {!isLoadingMore && hasMore ? ' ' : null}
+        </div>
+      ) : null}
+
+      <EndOfFeedMessage
+        hasMore={hasMore}
+        isLoading={isLoadingMore}
+        itemCount={posts.length}
+      />
     </div>
   );
 }

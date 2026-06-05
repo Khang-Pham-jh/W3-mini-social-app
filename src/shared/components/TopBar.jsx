@@ -15,6 +15,8 @@ function TopBar() {
   const authMode = location.pathname === '/signup' ? AUTH_MODES.SIGNUP : AUTH_MODES.LOGIN;
 
   useEffect(() => {
+    if (!isSidebarOpen) return;
+
     function handleEscape(event) {
       if (event.key === 'Escape') {
         setIsSidebarOpen(false);
@@ -26,7 +28,7 @@ function TopBar() {
     return () => {
       document.removeEventListener('keydown', handleEscape);
     };
-  }, []);
+  }, [isSidebarOpen]);
 
   async function handleLogout() {
     const result = await logout();
