@@ -20,21 +20,25 @@ function ProfileTabs({
   const [activeTab, setActiveTab] = useState(TABS.POSTS);
 
   return (
-    <div className={styles.tabs}>
+    <section className={styles.tabs} aria-label="Profile activity">
       <div className={styles.tabList} role="tablist" aria-label="Profile sections">
         <button
+          id="profile-posts-tab"
           type="button"
           role="tab"
           aria-selected={activeTab === TABS.POSTS}
+          aria-controls="profile-posts-panel"
           className={activeTab === TABS.POSTS ? styles.activeTab : styles.tab}
           onClick={() => setActiveTab(TABS.POSTS)}
         >
           Posts
         </button>
         <button
+          id="profile-highlights-tab"
           type="button"
           role="tab"
           aria-selected={activeTab === TABS.HIGHLIGHTS}
+          aria-controls="profile-highlights-panel"
           className={activeTab === TABS.HIGHLIGHTS ? styles.activeTab : styles.tab}
           onClick={() => setActiveTab(TABS.HIGHLIGHTS)}
         >
@@ -42,7 +46,12 @@ function ProfileTabs({
         </button>
       </div>
 
-      <div className={styles.tabPanel}>
+      <div
+        id={activeTab === TABS.POSTS ? 'profile-posts-panel' : 'profile-highlights-panel'}
+        className={styles.tabPanel}
+        role="tabpanel"
+        aria-labelledby={activeTab === TABS.POSTS ? 'profile-posts-tab' : 'profile-highlights-tab'}
+      >
         {activeTab === TABS.POSTS ? (
           <UserPostsFeed
             profile={profile}
@@ -57,7 +66,7 @@ function ProfileTabs({
           <HighlightSlider images={profile?.highlight_images} />
         )}
       </div>
-    </div>
+    </section>
   );
 }
 

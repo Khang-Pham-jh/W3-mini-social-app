@@ -12,10 +12,10 @@ function ProfileContent({
 }) {
   return (
     <section className={styles.contentCard}>
-      <div className={styles.header}>
+      <header className={styles.header}>
         <h2 className={styles.title}>{profile?.name || 'Profile'}</h2>
         <p className={styles.subtitle}>Posts and highlights live here.</p>
-      </div>
+      </header>
 
       <ProfileTabs
         profile={profile}
@@ -31,4 +31,3 @@ function ProfileContent({
 }
 
 export default ProfileContent;
-

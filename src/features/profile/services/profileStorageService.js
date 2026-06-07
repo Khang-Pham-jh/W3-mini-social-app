@@ -1,7 +1,6 @@
 import { isSupabaseConfigured, supabase } from '../../../libs/supabase';
 import { normalizeText } from '../../../shared/utils/text';
 
-const AVATAR_BUCKET = 'profile-avatars';
 const IMAGE_BUCKET = 'post-images';
 
 const MISSING_SUPABASE_CONFIG_MESSAGE =
@@ -133,7 +132,7 @@ export async function uploadAvatar({ userId, file } = {}) {
   }
 
   const uploadResult = await uploadFiles({
-    bucketName: AVATAR_BUCKET,
+    bucketName: IMAGE_BUCKET,
     userId,
     files: [file],
     folder: 'avatar',

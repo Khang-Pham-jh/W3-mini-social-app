@@ -1,0 +1,56 @@
+.previewGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.previewCard {
+  position: relative;
+  display: grid;
+  flex: 0 0 100px;
+  gap: 8px;
+  width: 100px;
+  padding: 8px;
+  border-radius: 14px;
+  background: #f4f8fa;
+  box-sizing: border-box;
+}
+
+.previewImage,
+.previewImageMuted {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid #cfd9df;
+  border-radius: 10px;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+.previewImageMuted {
+  opacity: 0.45;
+}
+
+.removeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 999px;
+  background: #b42318;
+  color: #fff;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(17, 24, 39, 0.22);
+}

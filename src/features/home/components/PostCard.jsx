@@ -34,7 +34,12 @@ function PostCard({ post, onHidePost, currentUser, currentProfile }) {
     <article className={styles.postCard}>
       <header className={styles.postHeader}>
         <AuthorHoverCard author={post.author}>
-          <button type="button" className={styles.avatarLink} onClick={handleProfileClick}>
+          <button
+            type="button"
+            className={styles.avatarLink}
+            onClick={handleProfileClick}
+            aria-label={`Open ${authorName}'s profile`}
+          >
             <div className={styles.avatar}>{avatarInitial}</div>
           </button>
           <div className={styles.authorBlock}>
@@ -62,7 +67,7 @@ function PostCard({ post, onHidePost, currentUser, currentProfile }) {
       {post.imageUrls.length > 0 ? (
         <div className={styles.imageGrid}>
           {post.imageUrls.map((imageUrl) => (
-            <img className={styles.postImage} src={imageUrl} alt="" key={imageUrl} />
+            <img className={styles.postImage} src={imageUrl} alt="Post attachment" key={imageUrl} />
           ))}
         </div>
       ) : null}

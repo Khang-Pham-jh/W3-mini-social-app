@@ -1,17 +1,26 @@
 .fieldGroup {
   display: grid;
   gap: 12px;
+  justify-content: center;
 }
 
 .fieldLabel {
-  font-size: 13px;
-  font-weight: 800;
+  display: flex;
+  font-size: 0.875rem;
+  font-weight: 500;
   color: #182531;
+  justify-content: center;
+}
+
+.uploadShell {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
 }
 
 .avatarPreview {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .avatarImage,
@@ -36,12 +45,6 @@
   font-weight: 900;
 }
 
-.actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
 .uploadButton,
 .secondaryButton {
   display: inline-flex;
@@ -51,7 +54,8 @@
   padding: 0 16px;
   border-radius: 999px;
   font: inherit;
-  font-weight: 700;
+  font-size: 0.95rem;
+  font-weight: 750;
 }
 
 .uploadButton {
@@ -75,12 +79,17 @@
 .helperText {
   margin: 0;
   color: #5d6b79;
+  font-size: 0.95rem;
   line-height: 1.6;
+  display: flex;
+  justify-content: center;
 }
 
 .fieldError {
   min-height: 20px;
   margin: 0;
   color: #b42318;
-  font-size: 14px;
+  font-size: 0.875rem;
+  display: flex;
+  justify-content: center;
 }

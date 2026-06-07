@@ -1,6 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { POSITIONS } from '../../auth/constants/positions';
 import styles from './ProfileInfoPanel.module.css';
+
+const PROFILE_POSITION_LABELS = new Map(
+  POSITIONS.map((position) => [
+    position.key,
+    position.key === 'fullstack'
+      ? 'Fullstack Developer'
+      : position.label.replace(/\bdeveloper\b/g, 'Developer'),
+  ]),
+);
+
+const POSITION_LABEL_TO_KEY = new Map(
+  POSITIONS.map((position) => [position.label.toLowerCase(), position.key]),
+);
 
 function formatDate(value) {
   if (!value) {
@@ -23,6 +37,28 @@ function getWordCount(text) {
     .filter(Boolean).length;
 }
 
+function formatPositionDisplay(positionValue) {
+  const rawPositions = String(positionValue ?? '')
+    .split(',')
+    .map((position) => position.trim())
+    .filter(Boolean);
+
+  if (rawPositions.length === 0) {
+    return 'No position set';
+  }
+
+  return rawPositions
+    .map((position) => {
+      const normalizedPosition = position.toLowerCase();
+      const positionKey = PROFILE_POSITION_LABELS.has(position)
+        ? position
+        : POSITION_LABEL_TO_KEY.get(normalizedPosition);
+
+      return positionKey ? PROFILE_POSITION_LABELS.get(positionKey) : position;
+    })
+    .join(', ');
+}
+
 function ProfileInfoPanel({ profile, isOwner }) {
   const [isBioExpanded, setIsBioExpanded] = useState(false);
   const [copyFeedback, setCopyFeedback] = useState('');
@@ -39,6 +75,10 @@ function ProfileInfoPanel({ profile, isOwner }) {
   const avatarInitial = useMemo(
     () => (profile?.name ? profile.name.charAt(0).toUpperCase() : '?'),
     [profile?.name],
+  );
+  const positionDisplay = useMemo(
+    () => formatPositionDisplay(profile?.position),
+    [profile?.position],
   );
 
   const bioWordCount = getWordCount(profile?.bio);
@@ -61,7 +101,11 @@ function ProfileInfoPanel({ profile, isOwner }) {
     <aside className={styles.panel}>
       <div className={styles.avatarShell}>
         {profile?.avatar_url ? (
-          <img className={styles.avatarImage} src={profile.avatar_url} alt={`${profile.name}'s avatar`} />
+          <img
+            className={styles.avatarImage}
+            src={profile.avatar_url}
+            alt={`${profile?.name || 'User'}'s avatar`}
+          />
         ) : (
           <div className={styles.avatarFallback}>{avatarInitial}</div>
         )}
@@ -69,12 +113,12 @@ function ProfileInfoPanel({ profile, isOwner }) {
 
       <div className={styles.header}>
         <h2 className={styles.name}>{profile?.name || 'Unnamed user'}</h2>
-        <p className={styles.position}>{profile?.position || 'No position set'}</p>
+        <p className={styles.position}>{positionDisplay}</p>
       </div>
 
       <dl className={styles.metaList}>
         <div className={styles.metaItem}>
-          <dt className={styles.metaLabel}>DOB</dt>
+          <dt className={styles.metaLabel}>Date of Birth</dt>
           <dd className={styles.metaValue}>{formatDate(profile?.dob)}</dd>
         </div>
         <div className={styles.metaItem}>

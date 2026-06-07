@@ -12,6 +12,19 @@
 .formGrid {
   display: grid;
   gap: 20px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.formLegend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .submitError {
@@ -39,7 +52,8 @@
   background: #00629d;
   color: #fff;
   font: inherit;
-  font-weight: 800;
+  font-size: 0.95rem;
+  font-weight: 750;
   cursor: pointer;
 }
 

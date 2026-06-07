@@ -41,6 +41,8 @@ for select
 to authenticated
 using (auth.uid() = id);
 
+drop policy if exists "Authenticated users can view public profile rows" on public.profiles;
+
 drop policy if exists "Users can insert their own profile" on public.profiles;
 create policy "Users can insert their own profile"
 on public.profiles
@@ -74,8 +76,24 @@ execute function public.set_profiles_updated_at();
 
 DROP POLICY IF EXISTS "Allow read profiles" ON public.profiles;
 
-CREATE OR REPLACE VIEW public.public_profiles 
-WITH (security_invoker = off) -- Runs as the view creator (bypassing RLS)
+REVOKE ALL ON TABLE public.profiles FROM anon, authenticated;
+GRANT SELECT (
+  id,
+  email,
+  name,
+  position,
+  avatar_url,
+  dob,
+  bio,
+  status,
+  highlight_images,
+  created_at,
+  updated_at
+) ON public.profiles TO authenticated;
+GRANT INSERT, UPDATE ON public.profiles TO authenticated;
+
+CREATE OR REPLACE VIEW public.public_profiles
+WITH (security_invoker = false)
 AS
   SELECT
     id,
@@ -88,5 +106,5 @@ AS
     highlight_images
   FROM public.profiles;
 
--- 3. Grant authenticated users access to this view
+REVOKE ALL ON public.public_profiles FROM anon, authenticated;
 GRANT SELECT ON public.public_profiles TO authenticated;

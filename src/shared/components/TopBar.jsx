@@ -115,7 +115,12 @@ function TopBar() {
               <h2 className={styles.sidebarTitle}>Navigation</h2>
               <p className={styles.sidebarSubtitle}>Bulletin workspace</p>
             </hgroup>
-            <button className={styles.closeButton} type="button" onClick={closeSidebar}>
+            <button
+              className={styles.closeButton}
+              type="button"
+              onClick={closeSidebar}
+              aria-label="Close sidebar"
+            >
               X
             </button>
           </div>

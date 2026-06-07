@@ -40,13 +40,13 @@ function PostComposer({ currentProfile, currentUser, onCreatePost }) {
         return (
           <form className={styles.composer} onSubmit={handleSubmit}>
             <div className={styles.composerHeader}>
-              <Link to="/profile" style={{ textDecoration: 'none' }}>
+              <Link className={styles.profileLink} to="/profile">
                 <span className={styles.avatar}>{displayName.charAt(0).toUpperCase()}</span>
               </Link>
               <hgroup>
                 <h2 className={styles.title}>Create post</h2>
                 <p className={styles.subtitle}>
-                  Posting as <Link to="/profile" style={{ color: 'inherit', textDecoration: 'none', fontWeight: 'bold' }}>{displayName}</Link>
+                  Posting as <Link className={styles.authorLink} to="/profile">{displayName}</Link>
                 </p>
               </hgroup>
             </div>

@@ -67,7 +67,7 @@ function UserPostsFeed({
   const isLoadingMore = isPostsLoading && posts.length > 0;
 
   return (
-    <div className={styles.feed}>
+    <section className={styles.feed} aria-label="Profile posts">
       {isOwner ? (
         <div className={styles.composerWrap}>
           <PostComposer
@@ -106,7 +106,7 @@ function UserPostsFeed({
       {!hasMore && !isLoadingMore && posts.length > 0 ? (
         <div className={styles.endOfFeed}>You&apos;re all caught up. No more posts to show.</div>
       ) : null}
-    </div>
+    </section>
   );
 }
 

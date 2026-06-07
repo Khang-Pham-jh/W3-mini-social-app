@@ -4,9 +4,14 @@
 }
 
 .fieldLabel {
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 0.875rem;
+  font-weight: 500;
   color: #182531;
+}
+
+.uploadShell {
+  display: grid;
+  gap: 12px;
 }
 
 .uploadButton {
@@ -21,7 +26,8 @@
   background: #f7fafc;
   color: #22313f;
   font: inherit;
-  font-weight: 700;
+  font-size: 0.95rem;
+  font-weight: 750;
   cursor: pointer;
 }
 
@@ -29,55 +35,22 @@
   display: none;
 }
 
-.previewGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 148px);
-  gap: 14px;
-  justify-content: start;
-}
-
-.previewCard {
-  display: grid;
-  gap: 10px;
-  width: 148px;
-  padding: 10px;
-  border-radius: 20px;
-  background: #f4f8fa;
-  box-sizing: border-box;
-}
-
-.previewImage,
-.previewImageMuted {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 16px;
-  object-fit: cover;
-}
-
-.previewImageMuted {
-  opacity: 0.45;
-}
-
-.removeButton,
 .restoreButton {
   min-height: 38px;
   border-radius: 999px;
   border: 1px solid #c0d0da;
-  background: #fff;
-  color: #22313f;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.restoreButton {
   background: #e7f3ec;
   color: #0f6c46;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 750;
+  cursor: pointer;
 }
 
 .helperText {
   margin: 0;
   color: #5d6b79;
+  font-size: 0.95rem;
   line-height: 1.6;
 }
 
@@ -85,15 +58,5 @@
   min-height: 20px;
   margin: 0;
   color: #b42318;
-  font-size: 14px;
-}
-
-@media (max-width: 480px) {
-  .previewGrid {
-    grid-template-columns: repeat(auto-fill, 132px);
-  }
-
-  .previewCard {
-    width: 132px;
-  }
+  font-size: 0.875rem;
 }

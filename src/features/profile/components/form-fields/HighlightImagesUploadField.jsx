@@ -1,50 +1,19 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo } from 'react';
+import ImageUploadField from '../../../../shared/components/ImageUploadField';
+import ImagePreviewGrid from '../../../../shared/components/ImagePreviewGrid';
 import styles from './HighlightImagesUploadField.module.css';
 
 function HighlightImagesUploadField({ input, meta, label }) {
-  const inputRef = useRef(null);
-  const [localPreviews, setLocalPreviews] = useState([]);
   const fieldError = meta.touched || meta.submitFailed ? meta.error || meta.submitError : '';
 
   const existingUrls = Array.isArray(input.value?.existingUrls) ? input.value.existingUrls : [];
   const removedUrls = Array.isArray(input.value?.removedUrls) ? input.value.removedUrls : [];
   const newFiles = Array.isArray(input.value?.newFiles) ? input.value.newFiles : [];
 
-  useEffect(() => {
-    const objectUrls = newFiles.map((file) => ({
-      key: `${file.name}-${file.size}-${file.lastModified}`,
-      url: URL.createObjectURL(file),
-    }));
-
-    setLocalPreviews(objectUrls);
-
-    return () => {
-      objectUrls.forEach((item) => URL.revokeObjectURL(item.url));
-    };
-  }, [newFiles]);
-
   const visibleExistingUrls = useMemo(
     () => existingUrls.filter((imageUrl) => !removedUrls.includes(imageUrl)),
     [existingUrls, removedUrls],
   );
-
-  function handleFileChange(event) {
-    const selectedFiles = event.target.files ? Array.from(event.target.files).filter(Boolean) : [];
-
-    if (selectedFiles.length === 0) {
-      return;
-    }
-
-    input.onChange({
-      existingUrls,
-      removedUrls,
-      newFiles: [...newFiles, ...selectedFiles],
-    });
-
-    if (inputRef.current) {
-      inputRef.current.value = '';
-    }
-  }
 
   function handleRemoveExisting(imageUrl) {
     if (removedUrls.includes(imageUrl)) {
@@ -66,65 +35,82 @@ function HighlightImagesUploadField({ input, meta, label }) {
     });
   }
 
-  function handleRemoveNewFile(indexToRemove) {
-    input.onChange({
-      existingUrls,
-      removedUrls,
-      newFiles: newFiles.filter((_, index) => index !== indexToRemove),
-    });
-
-    if (inputRef.current) {
-      inputRef.current.value = '';
-    }
-  }
-
   return (
     <div className={styles.fieldGroup}>
       <span className={styles.fieldLabel}>{label}</span>
 
-      <label className={styles.uploadButton}>
-        Add highlight images
-        <input
-          ref={inputRef}
-          className={styles.fileInput}
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={handleFileChange}
-        />
-      </label>
+      <ImageUploadField
+        files={newFiles}
+        onFilesChange={(nextFiles) => {
+          input.onChange({
+            existingUrls,
+            removedUrls,
+            newFiles: nextFiles,
+          });
+        }}
+        buttonLabel="Add highlight images"
+        className={styles.uploadShell}
+        uploadButtonClassName={styles.uploadButton}
+        inputClassName={styles.fileInput}
+        renderPreview={({ previews, removeFile }) => {
+          const previewItems = [
+            ...visibleExistingUrls.map((imageUrl) => ({
+              type: 'existing',
+              key: imageUrl,
+              url: imageUrl,
+            })),
+            ...removedUrls.map((imageUrl) => ({
+              type: 'removed',
+              key: `${imageUrl}-removed`,
+              url: imageUrl,
+            })),
+            ...previews.map((preview, index) => ({
+              type: 'new',
+              key: preview.key,
+              url: preview.url,
+              index,
+            })),
+          ];
 
-      <div className={styles.previewGrid}>
-        {visibleExistingUrls.map((imageUrl) => (
-          <div className={styles.previewCard} key={imageUrl}>
-            <img className={styles.previewImage} src={imageUrl} alt="Existing highlight preview" />
-            <button className={styles.removeButton} type="button" onClick={() => handleRemoveExisting(imageUrl)}>
-              Remove
-            </button>
-          </div>
-        ))}
+          return (
+            <ImagePreviewGrid
+              items={previewItems}
+              ariaLabel="Highlight image previews"
+              getKey={(item) => item.key}
+              getSrc={(item) => item.url}
+              getAlt={(item) => {
+                if (item.type === 'removed') return 'Removed highlight preview';
+                if (item.type === 'new') return 'New highlight preview';
+                return 'Existing highlight preview';
+              }}
+              getIsMuted={(item) => item.type === 'removed'}
+              canRemove={(item) => item.type !== 'removed'}
+              onRemove={(item) => {
+                if (item.type === 'existing') {
+                  handleRemoveExisting(item.url);
+                  return;
+                }
 
-        {removedUrls.map((imageUrl) => (
-          <div className={styles.previewCard} key={`${imageUrl}-removed`}>
-            <img className={styles.previewImageMuted} src={imageUrl} alt="Removed highlight preview" />
-            <button className={styles.restoreButton} type="button" onClick={() => handleRestoreExisting(imageUrl)}>
-              Restore
-            </button>
-          </div>
-        ))}
-
-        {localPreviews.map((preview, index) => (
-          <div className={styles.previewCard} key={`${preview.key}-${index}`}>
-            <img className={styles.previewImage} src={preview.url} alt="New highlight preview" />
-            <button className={styles.removeButton} type="button" onClick={() => handleRemoveNewFile(index)}>
-              Remove
-            </button>
-          </div>
-        ))}
-      </div>
+                removeFile(item.index);
+              }}
+              renderFooterAction={(item) => (
+                item.type === 'removed' ? (
+                  <button
+                    className={styles.restoreButton}
+                    type="button"
+                    onClick={() => handleRestoreExisting(item.url)}
+                  >
+                    Restore
+                  </button>
+                ) : null
+              )}
+            />
+          );
+        }}
+      />
 
       <p className={styles.helperText}>
-        Add optional highlight images. Files are only uploaded when you save.
+        Add at least one highlight image. Files are only uploaded when you save.
       </p>
       <p className={styles.fieldError}>{fieldError}</p>
     </div>

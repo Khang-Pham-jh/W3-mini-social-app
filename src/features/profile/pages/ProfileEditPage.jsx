@@ -1,6 +1,6 @@
 import { FORM_ERROR } from 'final-form';
 import { useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PageLayout from '../../../shared/components/PageLayout';
 import { useAuth } from '../../auth/context/AuthContext';
@@ -115,8 +115,13 @@ function ProfileEditPage() {
     <PageLayout>
       <main className={styles.page}>
         <div className={styles.pageHeader}>
-          <p className={styles.eyebrow}>Profile</p>
-          <h1 className={styles.pageTitle}>Edit Profile</h1>
+          <div>
+            <p className={styles.eyebrow}>Profile</p>
+            <h1 className={styles.pageTitle}>Edit Profile</h1>
+          </div>
+          <Link className={styles.viewProfileLink} to="/profile">
+            View Profile
+          </Link>
         </div>
         {renderContent()}
       </main>

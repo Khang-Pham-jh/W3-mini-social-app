@@ -2,9 +2,10 @@ import { useMemo, useRef } from 'react';
 import { Form, Field } from 'react-final-form';
 import { POSITIONS } from '../../auth/constants/positions';
 import TextField from '../../../shared/components/TextField';
+import TextareaField from '../../../shared/components/TextareaField';
 import PositionSelect from '../../../shared/components/PositionSelect';
-import ProfileTextareaField from './form-fields/ProfileTextareaField';
 import AvatarUploadField from './form-fields/AvatarUploadField';
+import DatePickerField from './form-fields/DatePickerField';
 import HighlightImagesUploadField from './form-fields/HighlightImagesUploadField';
 import StatusToggleField from './form-fields/StatusToggleField';
 import styles from './ProfileForm.module.css';
@@ -27,13 +28,13 @@ function normalizePositionValue(positionValue) {
 
   const normalizedKeys = rawValues
     .map((value) => {
-              const normalizedValue = String(value ?? '').trim().toLowerCase();
-              if (!normalizedValue) return '';
+      const normalizedValue = String(value ?? '').trim().toLowerCase();
+      if (!normalizedValue) return '';
 
-              const match = POSITIONS.find(
-                (p) => p.key.toLowerCase() === normalizedValue || p.label.toLowerCase() === normalizedValue
-              );
-              return match ? match.key : '';
+      const match = POSITIONS.find(
+        (p) => p.key.toLowerCase() === normalizedValue || p.label.toLowerCase() === normalizedValue,
+      );
+      return match ? match.key : '';
     })
     .filter(Boolean);
 
@@ -71,6 +72,19 @@ function createInitialValues(profile) {
     },
     status: profile?.status || 'active',
   };
+}
+
+function hasAvatarValue(value) {
+  return Boolean(value?.existingUrl || value?.newFile);
+}
+
+function getActiveHighlightCount(value) {
+  const existingUrls = Array.isArray(value?.existingUrls) ? value.existingUrls : [];
+  const removedUrls = new Set(Array.isArray(value?.removedUrls) ? value.removedUrls : []);
+  const remainingExistingCount = existingUrls.filter((url) => !removedUrls.has(url)).length;
+  const newFilesCount = Array.isArray(value?.newFiles) ? value.newFiles.length : 0;
+
+  return remainingExistingCount + newFilesCount;
 }
 
 function validateDob(value) {
@@ -115,6 +129,10 @@ function validateDob(value) {
 function validateProfileForm(values) {
   const errors = {};
 
+  if (!hasAvatarValue(values.avatar)) {
+    errors.avatar = 'Avatar is required.';
+  }
+
   if (!String(values.name ?? '').trim()) {
     errors.name = 'Name is required.';
   }
@@ -126,6 +144,10 @@ function validateProfileForm(values) {
 
   if (!Array.isArray(values.position) || values.position.length === 0) {
     errors.position = 'Position is required.';
+  }
+
+  if (getActiveHighlightCount(values.highlightImages) === 0) {
+    errors.highlightImages = 'At least one highlight image is required.';
   }
 
   return errors;
@@ -258,10 +280,11 @@ function ProfileForm({ profile, isSubmitting, submitError, onSubmit }) {
 
         return (
           <form className={styles.formCard} onSubmit={submitForm}>
-            <div className={styles.formGrid}>
+            <fieldset className={styles.formGrid}>
+              <legend className={styles.formLegend}>Profile details</legend>
               <Field name="avatar" component={AvatarUploadField} label="Avatar" />
               <Field name="name" component={TextField} label="Name" placeholder="Enter your name" />
-              <Field name="dob" component={TextField} label="Date of birth" type="date" />
+              <Field name="dob" component={DatePickerField} label="Date of birth" />
               <Field
                 name="position"
                 subscription={{
@@ -283,14 +306,14 @@ function ProfileForm({ profile, isSubmitting, submitError, onSubmit }) {
               </Field>
               <Field
                 name="bio"
-                component={ProfileTextareaField}
+                component={TextareaField}
                 label="Bio"
                 placeholder="Tell people a little about yourself"
                 rows={6}
               />
               <Field name="highlightImages" component={HighlightImagesUploadField} label="Highlight images" />
               <Field name="status" component={StatusToggleField} label="Status" />
-            </div>
+            </fieldset>
 
             {submitError || formSubmitError ? (
               <p className={styles.submitError}>{submitError || formSubmitError}</p>
