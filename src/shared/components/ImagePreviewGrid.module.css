@@ -3,6 +3,8 @@
   flex-wrap: wrap;
   gap: 12px;
   justify-content: flex-start;
+  width: 100%;
+  min-width: 0;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -14,10 +16,26 @@
   flex: 0 0 100px;
   gap: 8px;
   width: 100px;
+  max-width: 100%;
   padding: 8px;
   border-radius: 14px;
   background: #f4f8fa;
   box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .previewGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+    gap: 10px;
+  }
+
+  .previewCard {
+    width: 100%;
+    flex-basis: auto;
+    padding: 6px;
+    border-radius: 12px;
+  }
 }
 
 .previewImage,

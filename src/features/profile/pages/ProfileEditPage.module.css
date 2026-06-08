@@ -1,7 +1,9 @@
 .page {
   min-height: calc(100vh - 80px);
+  width: 100%;
   padding: 32px 24px 48px;
   box-sizing: border-box;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at top left, rgba(0, 98, 157, 0.14), transparent 28%),
     linear-gradient(180deg, #f7fbfc 0%, #eef4f7 100%);
@@ -14,6 +16,7 @@
   align-items: end;
   justify-content: space-between;
   gap: 16px;
+  box-sizing: border-box;
 }
 
 .eyebrow {
@@ -89,5 +92,37 @@
   .viewProfileLink {
     width: 100%;
     box-sizing: border-box;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 18px 10px 28px;
+  }
+
+  .pageHeader {
+    margin-bottom: 18px;
+    gap: 12px;
+  }
+
+  .eyebrow {
+    margin-bottom: 6px;
+    font-size: 0.72rem;
+  }
+
+  .pageTitle {
+    font-size: 1.8rem;
+    letter-spacing: 0;
+  }
+
+  .viewProfileLink {
+    min-height: 40px;
+    padding: 0 12px;
+    font-size: 0.9rem;
+  }
+
+  .statusCard {
+    padding: 20px 14px;
+    border-radius: 16px;
   }
 }
