@@ -3,3 +3,4 @@ export const STATUS_OPTIONS = {
   inactive: 'inactive',
 };
 
+export const DEFAULT_PROFILE_STATUS = STATUS_OPTIONS.active;

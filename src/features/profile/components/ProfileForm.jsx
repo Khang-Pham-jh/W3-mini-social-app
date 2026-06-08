@@ -4,7 +4,7 @@ import { POSITIONS } from '../../auth/constants/positions';
 import TextField from '../../../shared/components/TextField';
 import TextareaField from '../../../shared/components/TextareaField';
 import PositionSelect from '../../../shared/components/PositionSelect';
-import { STATUS_OPTION } from '../constants/status';
+import { STATUS_OPTIONS } from '../constants/status';
 import AvatarUploadField from './form-fields/AvatarUploadField';
 import DatePickerField from './form-fields/DatePickerField';
 import HighlightImagesUploadField from './form-fields/HighlightImagesUploadField';
