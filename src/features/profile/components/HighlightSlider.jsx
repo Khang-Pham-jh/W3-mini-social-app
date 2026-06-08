@@ -53,7 +53,8 @@ function getAltText(item, index) {
 }
 
 function HighlightCard({ item, index }) {
-  const hasText = Boolean(item.title || item.subtitle || item.description);
+  const { title, subtitle, description, url } = item;
+  const hasText = Boolean(title || subtitle || description);
 
   return (
     <li className={styles.cardItem}>
@@ -61,7 +62,7 @@ function HighlightCard({ item, index }) {
         <div className={styles.imageFrame}>
           <img
             className={styles.image}
-            src={item.url}
+            src={url}
             alt={getAltText(item, index)}
             draggable="false"
           />
@@ -69,9 +70,9 @@ function HighlightCard({ item, index }) {
 
         {hasText ? (
           <div className={styles.cardBody}>
-            {item.title ? <h3 className={styles.cardTitle}>{item.title}</h3> : null}
-            {item.subtitle ? <p className={styles.cardSubtitle}>{item.subtitle}</p> : null}
-            {item.description ? <p className={styles.cardDescription}>{item.description}</p> : null}
+            {title ? <h3 className={styles.cardTitle}>{title}</h3> : null}
+            {subtitle ? <p className={styles.cardSubtitle}>{subtitle}</p> : null}
+            {description ? <p className={styles.cardDescription}>{description}</p> : null}
           </div>
         ) : null}
       </article>

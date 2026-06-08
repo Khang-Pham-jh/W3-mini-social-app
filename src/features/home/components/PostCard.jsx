@@ -8,6 +8,21 @@ function getAuthorName(post) {
   return post.author?.name || 'Unknown user';
 }
 
+function getDisplayAuthor(post, currentUser, currentProfile) {
+  const isCurrentUserPost = Boolean(currentUser?.id && post.author?.id === currentUser.id);
+
+  if (!isCurrentUserPost) {
+    return post.author;
+  }
+
+  return {
+    ...post.author,
+    name: currentProfile?.name || post.author?.name,
+    position: currentProfile?.position || post.author?.position,
+    avatar_url: currentProfile?.avatar_url || post.author?.avatar_url,
+  };
+}
+
 function formatPostTime(createdAt) {
   if (!createdAt) {
     return 'Just now';
@@ -21,33 +36,43 @@ function formatPostTime(createdAt) {
 
 function PostCard({ post, onHidePost, currentUser, currentProfile }) {
   const navigate = useNavigate();
-  const authorName = getAuthorName(post);
+  const displayAuthor = getDisplayAuthor(post, currentUser, currentProfile);
+  const displayPost = {
+    ...post,
+    author: displayAuthor,
+  };
+  const authorName = getAuthorName(displayPost);
   const avatarInitial = authorName.charAt(0).toUpperCase();
+  const avatarUrl = displayAuthor?.avatar_url || '';
 
   const handleProfileClick = () => {
-    if (post.author?.id) {
-      navigate(`/profile/${post.author.id}`);
+    if (displayAuthor?.id) {
+      navigate(`/profile/${displayAuthor.id}`);
     }
   };
 
   return (
     <article className={styles.postCard}>
       <header className={styles.postHeader}>
-        <AuthorHoverCard author={post.author}>
+        <AuthorHoverCard author={displayAuthor}>
           <button
             type="button"
             className={styles.avatarLink}
             onClick={handleProfileClick}
             aria-label={`Open ${authorName}'s profile`}
           >
-            <div className={styles.avatar}>{avatarInitial}</div>
+            {avatarUrl ? (
+              <img className={styles.avatarImage} src={avatarUrl} alt={`${authorName}'s avatar`} />
+            ) : (
+              <div className={styles.avatar}>{avatarInitial}</div>
+            )}
           </button>
           <div className={styles.authorBlock}>
             <button type="button" className={styles.nameLink} onClick={handleProfileClick}>
               <p className={styles.authorName}>{authorName}</p>
             </button>
             <p className={styles.postMeta}>
-              <RoleBadge role={post.author?.position} /> - {formatPostTime(post.createdAt)}
+              <RoleBadge role={displayAuthor?.position} /> - {formatPostTime(post.createdAt)}
             </p>
           </div>
         </AuthorHoverCard>

@@ -4,6 +4,7 @@ import { POSITIONS } from '../../auth/constants/positions';
 import TextField from '../../../shared/components/TextField';
 import TextareaField from '../../../shared/components/TextareaField';
 import PositionSelect from '../../../shared/components/PositionSelect';
+import { STATUS_OPTION } from '../constants/status';
 import AvatarUploadField from './form-fields/AvatarUploadField';
 import DatePickerField from './form-fields/DatePickerField';
 import HighlightImagesUploadField from './form-fields/HighlightImagesUploadField';
@@ -70,7 +71,7 @@ function createInitialValues(profile) {
       removedUrls: [],
       newFiles: [],
     },
-    status: profile?.status || 'active',
+    status: profile?.status || STATUS_OPTION.ACTIVE,
   };
 }
 
@@ -206,7 +207,7 @@ function normalizeComparableValues(values = {}) {
     dob: normalizeDob(values.dob),
     position: normalizePositionValue(values.position),
     bio: normalizeTextValue(values.bio),
-    status: normalizeTextValue(values.status || 'active'),
+    status: normalizeTextValue(values.status || STATUS_OPTION.ACTIVE),
     avatar: normalizeAvatarForComparison(values.avatar),
     highlightImages: normalizeHighlightsForComparison(values.highlightImages),
   };
@@ -249,6 +250,7 @@ function ProfileForm({ profile, isSubmitting, submitError, onSubmit }) {
   async function handleSubmit(values) {
     return onSubmit({
       profileData: {
+        avatar_url: values.avatar?.existingUrl || '',
         name: values.name,
         dob: values.dob,
         position: serializePositionValue(values.position),

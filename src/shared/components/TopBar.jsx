@@ -88,7 +88,7 @@ function TopBar() {
                 onClick={() => setIsSidebarOpen(true)}
                 aria-label="Open sidebar"
               >
-                Menu
+                ☰
               </button>
               <button className={styles.logoutButton} type="button" onClick={handleLogout}>
                 Log out

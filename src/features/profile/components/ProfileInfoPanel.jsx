@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { POSITIONS } from '../../auth/constants/positions';
+import { DEFAULT_PROFILE_STATUS } from '../constants/status';
 import styles from './ProfileInfoPanel.module.css';
 
 const PROFILE_POSITION_LABELS = new Map(
@@ -15,6 +16,8 @@ const PROFILE_POSITION_LABELS = new Map(
 const POSITION_LABEL_TO_KEY = new Map(
   POSITIONS.map((position) => [position.label.toLowerCase(), position.key]),
 );
+
+const BIO_PREVIEW_WORD_LIMIT = 200;
 
 function formatDate(value) {
   if (!value) {
@@ -31,10 +34,14 @@ function formatDate(value) {
 }
 
 function getWordCount(text) {
+  return getBioWords(text).length;
+}
+
+function getBioWords(text) {
   return String(text ?? '')
     .trim()
     .split(/\s+/)
-    .filter(Boolean).length;
+    .filter(Boolean);
 }
 
 function formatPositionDisplay(positionValue) {
@@ -72,6 +79,10 @@ function ProfileInfoPanel({ profile, isOwner }) {
     return () => window.clearTimeout(timeoutId);
   }, [copyFeedback]);
 
+  useEffect(() => {
+    setIsBioExpanded(false);
+  }, [profile?.bio]);
+
   const avatarInitial = useMemo(
     () => (profile?.name ? profile.name.charAt(0).toUpperCase() : '?'),
     [profile?.name],
@@ -82,10 +93,10 @@ function ProfileInfoPanel({ profile, isOwner }) {
   );
 
   const bioWordCount = getWordCount(profile?.bio);
-  const shouldShowReadMore = bioWordCount > 200;
-  const bioWords = String(profile?.bio ?? '').trim().split(/\s+/).filter(Boolean);
+  const shouldShowReadMore = bioWordCount > BIO_PREVIEW_WORD_LIMIT;
+  const bioWords = getBioWords(profile?.bio);
   const displayedBio = shouldShowReadMore && !isBioExpanded
-    ? `${bioWords.slice(0, 200).join(' ')}...`
+    ? `${bioWords.slice(0, BIO_PREVIEW_WORD_LIMIT).join(' ')}...`
     : profile?.bio;
 
   async function handleCopyUrl() {
@@ -124,7 +135,7 @@ function ProfileInfoPanel({ profile, isOwner }) {
         <div className={styles.metaItem}>
           <dt className={styles.metaLabel}>Status</dt>
           <dd className={styles.metaValue}>
-            <span className={styles.statusBadge}>{profile?.status || 'active'}</span>
+            <span className={styles.statusBadge}>{profile?.status || DEFAULT_PROFILE_STATUS}</span>
           </dd>
         </div>
       </dl>

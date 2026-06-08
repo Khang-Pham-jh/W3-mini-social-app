@@ -1,5 +1,6 @@
 import { isSupabaseConfigured, supabase } from '../../../libs/supabase';
 import { normalizeText } from '../../../shared/utils/text';
+import { DEFAULT_PROFILE_STATUS } from '../constants/status';
 
 const PROFILES_TABLE = 'profiles';
 const PUBLIC_PROFILES_VIEW = 'public_profiles';
@@ -61,7 +62,7 @@ function normalizeNullableText(value) {
 
 function normalizeStatus(value) {
   const normalizedValue = normalizeText(value).toLowerCase();
-  return normalizedValue || 'active';
+  return normalizedValue || DEFAULT_PROFILE_STATUS;
 }
 
 function normalizeDate(value) {

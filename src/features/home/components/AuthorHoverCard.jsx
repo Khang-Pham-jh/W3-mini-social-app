@@ -25,6 +25,7 @@ function AuthorHoverCard({ author, children }) {
   }
 
   const avatarLetter = author.name ? author.name.charAt(0).toUpperCase() : '?';
+  const avatarUrl = author.avatar_url || '';
 
   return (
     <div
@@ -39,7 +40,11 @@ function AuthorHoverCard({ author, children }) {
       {isVisible && (
         <div className={styles.hoverCard}>
           <div className={styles.header}>
-            <div className={styles.avatar}>{avatarLetter}</div>
+            {avatarUrl ? (
+              <img className={styles.avatarImage} src={avatarUrl} alt={`${author.name || 'User'}'s avatar`} />
+            ) : (
+              <div className={styles.avatar}>{avatarLetter}</div>
+            )}
             <div className={styles.userInfo}>
               <div className={styles.name}>{author.name || 'Unknown User'}</div>
               <RoleBadge role={author.position} />

@@ -1,18 +1,19 @@
+import { DEFAULT_PROFILE_STATUS, STATUS_OPTIONS } from '../../constants/status';
 import styles from './StatusToggleField.module.css';
 
-const STATUS_OPTIONS = [
-  { value: 'active', label: 'Active' },
-  { value: 'inactive', label: 'Inactive' },
+const STATUS_CHOICES = [
+  { value: STATUS_OPTIONS.active, label: 'Active' },
+  { value: STATUS_OPTIONS.inactive, label: 'Inactive' },
 ];
 
 function StatusToggleField({ input, label }) {
-  const currentValue = input.value || 'active';
+  const currentValue = input.value || DEFAULT_PROFILE_STATUS;
 
   return (
     <div className={styles.fieldGroup}>
       <span className={styles.fieldLabel}>{label}</span>
       <div className={styles.toggleGroup} role="radiogroup" aria-label={label}>
-        {STATUS_OPTIONS.map((option) => (
+        {STATUS_CHOICES.map((option) => (
           <button
             key={option.value}
             className={currentValue === option.value ? styles.toggleActive : styles.toggleButton}
@@ -29,4 +30,3 @@ function StatusToggleField({ input, label }) {
 }
 
 export default StatusToggleField;
-

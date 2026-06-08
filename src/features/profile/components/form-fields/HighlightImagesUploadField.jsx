@@ -3,6 +3,12 @@ import ImageUploadField from '../../../../shared/components/ImageUploadField';
 import ImagePreviewGrid from '../../../../shared/components/ImagePreviewGrid';
 import styles from './HighlightImagesUploadField.module.css';
 
+const PREVIEW_ITEM_TYPES = {
+  existing: 'existing',
+  removed: 'removed',
+  new: 'new',
+};
+
 function HighlightImagesUploadField({ input, meta, label }) {
   const fieldError = meta.touched || meta.submitFailed ? meta.error || meta.submitError : '';
 
@@ -55,17 +61,17 @@ function HighlightImagesUploadField({ input, meta, label }) {
         renderPreview={({ previews, removeFile }) => {
           const previewItems = [
             ...visibleExistingUrls.map((imageUrl) => ({
-              type: 'existing',
+              type: PREVIEW_ITEM_TYPES.existing,
               key: imageUrl,
               url: imageUrl,
             })),
             ...removedUrls.map((imageUrl) => ({
-              type: 'removed',
+              type: PREVIEW_ITEM_TYPES.removed,
               key: `${imageUrl}-removed`,
               url: imageUrl,
             })),
             ...previews.map((preview, index) => ({
-              type: 'new',
+              type: PREVIEW_ITEM_TYPES.new,
               key: preview.key,
               url: preview.url,
               index,
@@ -79,14 +85,14 @@ function HighlightImagesUploadField({ input, meta, label }) {
               getKey={(item) => item.key}
               getSrc={(item) => item.url}
               getAlt={(item) => {
-                if (item.type === 'removed') return 'Removed highlight preview';
-                if (item.type === 'new') return 'New highlight preview';
+                if (item.type === PREVIEW_ITEM_TYPES.removed) return 'Removed highlight preview';
+                if (item.type === PREVIEW_ITEM_TYPES.new) return 'New highlight preview';
                 return 'Existing highlight preview';
               }}
-              getIsMuted={(item) => item.type === 'removed'}
-              canRemove={(item) => item.type !== 'removed'}
+              getIsMuted={(item) => item.type === PREVIEW_ITEM_TYPES.removed}
+              canRemove={(item) => item.type !== PREVIEW_ITEM_TYPES.removed}
               onRemove={(item) => {
-                if (item.type === 'existing') {
+                if (item.type === PREVIEW_ITEM_TYPES.existing) {
                   handleRemoveExisting(item.url);
                   return;
                 }
@@ -94,7 +100,7 @@ function HighlightImagesUploadField({ input, meta, label }) {
                 removeFile(item.index);
               }}
               renderFooterAction={(item) => (
-                item.type === 'removed' ? (
+                item.type === PREVIEW_ITEM_TYPES.removed ? (
                   <button
                     className={styles.restoreButton}
                     type="button"

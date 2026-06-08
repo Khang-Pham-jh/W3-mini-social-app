@@ -40,16 +40,26 @@
   text-decoration: underline;
 }
 
+.avatar,
+.avatarImage {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+}
+
 .avatar {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 999px;
   background: #00629d;
   color: #ffffff;
   font-weight: 800;
+}
+
+.avatarImage {
+  display: block;
+  object-fit: cover;
+  background: #edf2f5;
 }
 
 .authorBlock {
