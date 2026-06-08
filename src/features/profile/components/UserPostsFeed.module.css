@@ -1,0 +1,45 @@
+.feed {
+  min-width: 0;
+}
+
+.composerWrap {
+  margin-bottom: 20px;
+}
+
+.postsList {
+  display: grid;
+  gap: 16px;
+}
+
+.statusText,
+.errorText,
+.endOfFeed,
+.loadMoreTrigger {
+  margin: 0;
+  padding: 18px 20px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.statusText,
+.endOfFeed,
+.loadMoreTrigger {
+  background: #f2f7f9;
+  color: #4b5966;
+}
+
+.errorText {
+  background: #fff1f1;
+  color: #b42318;
+}
+
+.loadMoreTrigger {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.endOfFeed {
+  margin-top: 16px;
+  text-align: center;
+}

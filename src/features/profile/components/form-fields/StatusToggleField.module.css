@@ -1,0 +1,55 @@
+.fieldGroup {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.fieldLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #182531;
+}
+
+.toggleGroup {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.toggleButton,
+.toggleActive {
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid #bfd0da;
+  background: #f7fafc;
+  color: #31404d;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 750;
+  cursor: pointer;
+  text-align: center;
+}
+
+.toggleActive {
+  border-color: #00629d;
+  background: #00629d;
+  color: #fff;
+}
+
+@media (max-width: 480px) {
+  .toggleGroup {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .toggleButton,
+  .toggleActive {
+    min-width: 0;
+    min-height: 40px;
+    padding: 0 10px;
+    font-size: 0.88rem;
+  }
+}

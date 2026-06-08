@@ -1,5 +1,18 @@
+.fieldGroup {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.fieldLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #182531;
+}
+
 .textarea {
   width: 100%;
+  min-width: 0;
   min-height: 112px;
   padding: 14px;
   border: 1px solid #cfd9df;
@@ -10,7 +23,38 @@
   box-sizing: border-box;
 }
 
+@media (max-width: 480px) {
+  .textarea {
+    min-height: 96px;
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .helperText,
+  .fieldError {
+    font-size: 0.85rem;
+  }
+}
+
+.textareaError {
+  border-color: #b42318;
+}
+
 .textarea:focus {
   border-color: #00629d;
   outline: 3px solid rgba(0, 98, 157, 0.14);
+}
+
+.helperText {
+  margin: 0;
+  color: #5d6b79;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.fieldError {
+  min-height: 20px;
+  margin: 0;
+  color: #b42318;
+  font-size: 0.875rem;
 }

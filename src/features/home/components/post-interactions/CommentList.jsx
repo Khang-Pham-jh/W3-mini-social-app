@@ -1,7 +1,7 @@
 import CommentItem from './CommentItem';
 import styles from './PostInteractions.module.css';
 
-function CommentList({ comments, currentUserId, onEdit, onDelete }) {
+function CommentList({ comments, currentUserId, currentProfile, onEdit, onDelete }) {
   if (!comments || comments.length === 0) {
     return <p className={styles.emptyState}>No comments yet. Be the first to share your thoughts!</p>;
   }
@@ -13,6 +13,7 @@ function CommentList({ comments, currentUserId, onEdit, onDelete }) {
           key={comment.id}
           comment={comment}
           isOwner={Boolean(currentUserId && comment.author_id === currentUserId)}
+          currentProfile={currentProfile}
           onEdit={onEdit}
           onDelete={onDelete}
         />

@@ -29,10 +29,14 @@
   margin-bottom: 12px;
 }
 
-.avatar {
+.avatar,
+.avatarImage {
   width: 48px;
   height: 48px;
   border-radius: 50%;
+}
+
+.avatar {
   background-color: #0369a1;
   color: #ffffff;
   display: flex;
@@ -40,6 +44,13 @@
   justify-content: center;
   font-size: 1.5rem;
   font-weight: 600;
+}
+
+.avatarImage {
+  display: block;
+  object-fit: cover;
+  background: #e5e7eb;
+  flex-shrink: 0;
 }
 
 .userInfo {

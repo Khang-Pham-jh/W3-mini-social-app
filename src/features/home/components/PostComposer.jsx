@@ -8,6 +8,7 @@ import styles from './PostComposer.module.css';
 function PostComposer({ currentProfile, currentUser, onCreatePost }) {
   const [formError, setFormError] = useState('');
   const displayName = getDisplayName(currentProfile, currentUser);
+  const avatarUrl = currentProfile?.avatar_url || '';
 
   const onSubmit = async (values, form) => {
     const content = values.content || '';
@@ -40,13 +41,17 @@ function PostComposer({ currentProfile, currentUser, onCreatePost }) {
         return (
           <form className={styles.composer} onSubmit={handleSubmit}>
             <div className={styles.composerHeader}>
-              <Link to="/profile" style={{ textDecoration: 'none' }}>
-                <span className={styles.avatar}>{displayName.charAt(0).toUpperCase()}</span>
+              <Link className={styles.profileLink} to="/profile">
+                {avatarUrl ? (
+                  <img className={styles.avatarImage} src={avatarUrl} alt={`${displayName}'s avatar`} />
+                ) : (
+                  <span className={styles.avatar}>{displayName.charAt(0).toUpperCase()}</span>
+                )}
               </Link>
               <hgroup>
                 <h2 className={styles.title}>Create post</h2>
                 <p className={styles.subtitle}>
-                  Posting as <Link to="/profile" style={{ color: 'inherit', textDecoration: 'none', fontWeight: 'bold' }}>{displayName}</Link>
+                  Posting as <Link className={styles.authorLink} to="/profile">{displayName}</Link>
                 </p>
               </hgroup>
             </div>

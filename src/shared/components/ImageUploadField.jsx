@@ -1,13 +1,45 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import ImagePreviewGrid from './ImagePreviewGrid';
 import styles from './ImageUploadField.module.css';
 
-function ImageUploadField({ input: { value, onChange } }) {
+function normalizeFileList(files) {
+  if (!files) {
+    return [];
+  }
+
+  return Array.isArray(files) ? files.filter(Boolean) : [files].filter(Boolean);
+}
+
+function getFileKey(file, index) {
+  return `${file.name}-${file.size}-${file.lastModified}-${index}`;
+}
+
+function ImageUploadField({
+  input,
+  files,
+  onFilesChange,
+  accept = 'image/*',
+  multiple = true,
+  buttonLabel = 'Add images',
+  ariaLabel = 'Image previews',
+  className = styles.container,
+  uploadButtonClassName = styles.uploadButton,
+  inputClassName = styles.fileInput,
+  renderPreview,
+  renderAfterInput,
+  previewPlacement = 'after',
+}) {
   const [previews, setPreviews] = useState([]);
   const inputRef = useRef(null);
+  const selectedFiles = useMemo(
+    () => normalizeFileList(files ?? input?.value),
+    [files, input?.value],
+  );
+  const handleFilesChange = onFilesChange ?? input?.onChange;
 
   useEffect(() => {
-    const files = Array.isArray(value) ? value : [];
-    const objectUrls = files.map((file) => ({
+    const objectUrls = selectedFiles.map((file, index) => ({
+      key: getFileKey(file, index),
       file,
       url: URL.createObjectURL(file),
     }));
@@ -15,47 +47,78 @@ function ImageUploadField({ input: { value, onChange } }) {
     setPreviews(objectUrls);
 
     return () => {
-      objectUrls.forEach((p) => URL.revokeObjectURL(p.url));
+      objectUrls.forEach((preview) => URL.revokeObjectURL(preview.url));
     };
-  }, [value]);
+  }, [selectedFiles]);
 
-  const handleChange = (event) => {
-    if (event.target.files && event.target.files.length > 0) {
-      const currentFiles = Array.isArray(value) ? value : [];
-      const newFiles = [...currentFiles, ...Array.from(event.target.files)];
-      onChange(newFiles);
+  function handleChange(event) {
+    const nextSelectedFiles = event.target.files
+      ? Array.from(event.target.files).filter(Boolean)
+      : [];
+
+    if (nextSelectedFiles.length > 0 && typeof handleFilesChange === 'function') {
+      const nextFiles = multiple
+        ? [...selectedFiles, ...nextSelectedFiles]
+        : nextSelectedFiles.slice(0, 1);
+
+      handleFilesChange(nextFiles);
     }
-    
+
     if (inputRef.current) {
       inputRef.current.value = '';
     }
-  };
+  }
 
-  const handleRemove = (indexToRemove) => {
-    const currentFiles = Array.isArray(value) ? value : [];
-    const newFiles = currentFiles.filter((_, idx) => idx !== indexToRemove);
-    onChange(newFiles);
-  };
+  function handleRemove(indexToRemove) {
+    if (typeof handleFilesChange !== 'function') {
+      return;
+    }
+
+    handleFilesChange(selectedFiles.filter((_, index) => index !== indexToRemove));
+  }
+
+  const previewContent = renderPreview ? (
+    renderPreview({
+      previews,
+      selectedFiles,
+      removeFile: handleRemove,
+    })
+  ) : (
+    <ImagePreviewGrid
+      items={previews}
+      ariaLabel={ariaLabel}
+      getKey={(preview) => preview.key}
+      getSrc={(preview) => preview.url}
+      getAlt={() => 'Upload preview'}
+      onRemove={(_, index) => handleRemove(index)}
+    />
+  );
 
   return (
-    <div className={styles.container}>
-      <label className={styles.uploadButton}>
-        Add images
-        <input type="file" accept="image/*" multiple onChange={handleChange} ref={inputRef} />
+    <div className={className}>
+      {previewPlacement === 'before' ? previewContent : null}
+
+      <label className={uploadButtonClassName}>
+        {buttonLabel}
+        <input
+          ref={inputRef}
+          className={inputClassName}
+          type="file"
+          accept={accept}
+          multiple={multiple}
+          onChange={handleChange}
+        />
       </label>
 
-      {previews.length > 0 ? (
-        <ul className={styles.previewContainer} aria-label="Image previews">
-          {previews.map((preview, index) => (
-            <li key={`${preview.file.name}-${preview.file.size}-${index}`} className={styles.previewWrapper}>
-              <img src={preview.url} alt="Upload preview" className={styles.previewImage} />
-              <button type="button" onClick={() => handleRemove(index)} className={styles.removeButton} aria-label="Remove image">
-                ×
-              </button>
-            </li>
-          ))}
-        </ul>
-      ) : null}
+      {renderAfterInput
+        ? renderAfterInput({
+            previews,
+            selectedFiles,
+            removeFile: handleRemove,
+          })
+        : null}
+
+      {previewPlacement === 'after' ? previewContent : null}
     </div>
   );
 }

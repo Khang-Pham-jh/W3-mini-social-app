@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 0.5rem;
   position: relative;
+  min-width: 0;
 }
 
 .fieldLabel {
@@ -13,10 +14,12 @@
 
 .dropdownControl {
   position: relative;
+  min-width: 0;
 }
 
 .dropdownTrigger {
   width: 100%;
+  min-width: 0;
   height: 46px;
   padding: 0 14px;
   border: 1px solid #cbd5e1;
@@ -95,6 +98,24 @@
   padding: 1rem;
   max-height: 200px;
   overflow-y: auto;
+}
+
+@media (max-width: 480px) {
+  .dropdownTrigger {
+    height: 44px;
+    padding: 0 12px;
+    font-size: 14px;
+  }
+
+  .dropdownOptionGrid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .checkboxItem {
+    min-height: 32px;
+  }
 }
 
 .checkboxItem {

@@ -1,0 +1,97 @@
+.fieldGroup {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fieldLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #182531;
+}
+
+.uploadShell {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  width: 100%;
+}
+
+.uploadButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid #c0d0da;
+  background: #f7fafc;
+  color: #22313f;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 750;
+  cursor: pointer;
+  text-align: center;
+  white-space: normal;
+}
+
+.fileInput {
+  display: none;
+}
+
+.restoreButton {
+  min-height: 38px;
+  max-width: 100%;
+  border-radius: 999px;
+  border: 1px solid #c0d0da;
+  background: #e7f3ec;
+  color: #0f6c46;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.helperText {
+  margin: 0;
+  color: #5d6b79;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.fieldError {
+  min-height: 20px;
+  margin: 0;
+  color: #b42318;
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+  .uploadButton {
+    width: min(100%, 240px);
+    min-height: 36px;
+    padding: 0 10px;
+    font-size: 0.84rem;
+    justify-self: center;
+  }
+
+  .restoreButton {
+    width: min(100%, 120px);
+    min-height: 32px;
+    padding: 0 8px;
+    font-size: 0.8rem;
+  }
+
+  .helperText,
+  .fieldError {
+    font-size: 0.85rem;
+  }
+}

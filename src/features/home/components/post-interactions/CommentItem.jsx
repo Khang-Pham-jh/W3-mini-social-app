@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CommentForm from './CommentForm';
 import styles from './PostInteractions.module.css';
 
-function CommentItem({ comment, isOwner, onEdit, onDelete }) {
+function CommentItem({ comment, isOwner, currentProfile, onEdit, onDelete }) {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEditSubmit = async (newContent) => {
@@ -25,9 +25,16 @@ function CommentItem({ comment, isOwner, onEdit, onDelete }) {
     );
   }
 
-  const authorName = comment.author?.name || 'Unknown User';
+  const displayAuthor = isOwner
+    ? {
+        ...comment.author,
+        name: currentProfile?.name || comment.author?.name,
+        avatar_url: currentProfile?.avatar_url || comment.author?.avatar_url,
+      }
+    : comment.author;
+  const authorName = displayAuthor?.name || 'Unknown User';
   const avatarInitial = authorName.charAt(0).toUpperCase();
-  const avatarUrl = comment.author?.avatar_url;
+  const avatarUrl = displayAuthor?.avatar_url;
   const displayTime = new Intl.DateTimeFormat('en', {
     month: 'short',
     day: 'numeric',

@@ -1,0 +1,134 @@
+.fieldGroup {
+  display: grid;
+  gap: 12px;
+  justify-content: center;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fieldLabel {
+  display: flex;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #182531;
+  justify-content: center;
+}
+
+.uploadShell {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  min-width: 0;
+  width: 100%;
+}
+
+.avatarPreview {
+  display: flex;
+  justify-content: center;
+}
+
+.avatarImage,
+.avatarFallback {
+  width: 128px;
+  height: 128px;
+  border-radius: 999px;
+}
+
+.avatarImage {
+  object-fit: cover;
+  border: 4px solid #d7e5ee;
+}
+
+.avatarFallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #00629d 0%, #32a3cc 100%);
+  color: #fff;
+  font-size: 3rem;
+  font-weight: 900;
+}
+
+.uploadButton,
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 750;
+  text-align: center;
+  white-space: normal;
+}
+
+.uploadButton {
+  border: 1px solid #c0d0da;
+  background: #f7fafc;
+  color: #22313f;
+  cursor: pointer;
+}
+
+.secondaryButton {
+  border: 1px solid #c0d0da;
+  background: #fff;
+  color: #22313f;
+  cursor: pointer;
+}
+
+.fileInput {
+  display: none;
+}
+
+.helperText {
+  margin: 0;
+  color: #5d6b79;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.fieldError {
+  min-height: 20px;
+  margin: 0;
+  color: #b42318;
+  font-size: 0.875rem;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+  .avatarImage,
+  .avatarFallback {
+    width: 104px;
+    height: 104px;
+  }
+
+  .avatarFallback {
+    font-size: 2.5rem;
+  }
+
+  .uploadButton,
+  .secondaryButton {
+    width: min(100%, 220px);
+    min-height: 36px;
+    padding: 0 10px;
+    font-size: 0.84rem;
+    justify-self: center;
+  }
+
+  .helperText,
+  .fieldError {
+    font-size: 0.85rem;
+  }
+}

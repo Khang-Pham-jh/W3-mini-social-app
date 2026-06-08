@@ -1,0 +1,34 @@
+.tabs {
+  min-width: 0;
+}
+
+.tabList {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tab,
+.activeTab {
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid #bfd0da;
+  background: #f7fafc;
+  color: #31404d;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.activeTab {
+  border-color: #00629d;
+  background: #00629d;
+  color: #fff;
+}
+
+.tabPanel {
+  min-width: 0;
+}

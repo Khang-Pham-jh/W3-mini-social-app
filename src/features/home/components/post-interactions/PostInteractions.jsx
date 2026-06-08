@@ -49,6 +49,7 @@ function PostInteractions({ postId, currentUser, currentProfile }) {
           onEdit={editComment}
           onDelete={removeComment}
           currentUserId={currentUserId}
+          currentProfile={currentProfile}
           isSubmitting={isCommentSubmitting}
         />
       ) : null}

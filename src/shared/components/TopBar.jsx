@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../features/auth/context/AuthContext';
 import jhLogo from '../../assets/JH-logo.png';
 import ModeSwitch from './ModeSwitch';
@@ -15,7 +15,9 @@ function TopBar() {
   const authMode = location.pathname === '/signup' ? AUTH_MODES.SIGNUP : AUTH_MODES.LOGIN;
 
   useEffect(() => {
-    if (!isSidebarOpen) return;
+    if (!isSidebarOpen) {
+      return undefined;
+    }
 
     function handleEscape(event) {
       if (event.key === 'Escape') {
@@ -46,7 +48,8 @@ function TopBar() {
 
   const displayName = currentProfile?.name || currentUser?.user_metadata?.name || 'Guest';
   const displayEmail = currentProfile?.email || currentUser?.email || 'Not signed in';
-  const displayPosition = currentProfile?.position || currentUser?.user_metadata?.position || 'Visitor';
+  const displayPosition =
+    currentProfile?.position || currentUser?.user_metadata?.position || 'Visitor';
 
   return (
     <>
@@ -112,8 +115,13 @@ function TopBar() {
               <h2 className={styles.sidebarTitle}>Navigation</h2>
               <p className={styles.sidebarSubtitle}>Bulletin workspace</p>
             </hgroup>
-            <button className={styles.closeButton} type="button" onClick={closeSidebar}>
-              ×
+            <button
+              className={styles.closeButton}
+              type="button"
+              onClick={closeSidebar}
+              aria-label="Close sidebar"
+            >
+              X
             </button>
           </div>
 

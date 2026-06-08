@@ -1,0 +1,164 @@
+.fieldGroup {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.fieldLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #182531;
+}
+
+.inputRow {
+  display: block;
+}
+
+.dateInput {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid #c0d0da;
+  border-radius: 14px;
+  background: #fff;
+  color: #182531;
+  font: inherit;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.dateInput:focus,
+.monthSelect:focus,
+.yearSelect:focus,
+.dayButton:focus-visible,
+.selectedDayButton:focus-visible {
+  outline: 2px solid #00629d;
+  outline-offset: 2px;
+}
+
+.panel {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% - 20px);
+  left: 0;
+  width: min(360px, 100%);
+  padding: 16px;
+  border: 1px solid rgba(191, 199, 211, 0.9);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 20px 48px rgba(17, 24, 39, 0.16);
+  box-sizing: border-box;
+}
+
+.panelHeader {
+  margin-bottom: 16px;
+}
+
+.dayButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.selectGroup {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(96px, 0.8fr);
+  gap: 14px;
+}
+
+.monthSelect,
+.yearSelect {
+  min-height: 40px;
+  border: 1px solid #c0d0da;
+  border-radius: 12px;
+  background: #fff;
+  color: #182531;
+  font: inherit;
+}
+
+.weekdayGrid,
+.dayGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.weekdayGrid {
+  margin-bottom: 6px;
+}
+
+.weekday {
+  color: #647282;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.blankDay {
+  min-height: 38px;
+}
+
+.dayButton,
+.selectedDayButton {
+  min-width: 0;
+  min-height: 38px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: #f4f8fa;
+  color: #182531;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dayButton:hover:not(:disabled) {
+  border-color: #9bb9ca;
+  background: #eaf3f7;
+}
+
+.selectedDayButton {
+  border-color: #00629d;
+  background: #00629d;
+  color: #fff;
+}
+
+.fieldError {
+  min-height: 20px;
+  margin: 0;
+  color: #b42318;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 480px) {
+  .dateInput {
+    min-height: 44px;
+    padding: 0 12px;
+    font-size: 0.9rem;
+  }
+
+  .panel {
+    width: 100%;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .selectGroup {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .weekdayGrid,
+  .dayGrid {
+    gap: 4px;
+  }
+
+  .blankDay,
+  .dayButton,
+  .selectedDayButton {
+    min-height: 34px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+  }
+}

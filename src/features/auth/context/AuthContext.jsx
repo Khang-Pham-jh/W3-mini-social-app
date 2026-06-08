@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { isSupabaseConfigured, supabase } from '../../../libs/supabase';
 import { loginWithPassword, logoutUser, signUpWithPassword } from '../services/authService';
-import { upsertProfileFromUser } from '../services/profileService';
+import { getProfileByUserId, upsertProfileFromUser } from '../services/profileService';
 
 export const AuthContext = createContext(null);
 
@@ -14,6 +14,20 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [currentProfile, setCurrentProfile] = useState(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
+
+  const refreshCurrentProfile = useCallback(
+    async (userId = currentUser?.id ?? null) => {
+      if (!userId) {
+        setCurrentProfile(null);
+        return null;
+      }
+
+      const latestProfile = await getProfileByUserId(userId);
+      setCurrentProfile(latestProfile);
+      return latestProfile;
+    },
+    [currentUser?.id],
+  );
 
   useEffect(() => {
     let isSubscribed = true;
@@ -90,6 +104,7 @@ export function AuthProvider({ children }) {
     () => ({
       currentUser,
       currentProfile,
+      refreshCurrentProfile,
       session,
       isLoggedIn: Boolean(session?.user),
       isAuthLoading,
@@ -97,7 +112,7 @@ export function AuthProvider({ children }) {
       login,
       logout,
     }),
-    [currentProfile, currentUser, isAuthLoading, session],
+    [currentProfile, currentUser, isAuthLoading, refreshCurrentProfile, session],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

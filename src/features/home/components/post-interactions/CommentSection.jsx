@@ -10,6 +10,7 @@ function CommentSection({
   onEdit,
   onDelete,
   currentUserId,
+  currentProfile,
   isSubmitting,
 }) {
   return (
@@ -23,7 +24,13 @@ function CommentSection({
       {isLoading ? (
         <p className={styles.loadingText}>Loading comments...</p>
       ) : (
-        <CommentList comments={comments} currentUserId={currentUserId} onEdit={onEdit} onDelete={onDelete} />
+        <CommentList
+          comments={comments}
+          currentUserId={currentUserId}
+          currentProfile={currentProfile}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
       )}
     </section>
   );

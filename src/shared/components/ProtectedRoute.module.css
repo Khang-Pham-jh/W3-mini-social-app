@@ -1,0 +1,17 @@
+.loadingState {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.loadingText {
+  margin: 0;
+  padding: 18px 22px;
+  border-radius: 18px;
+  background: #f2f7f9;
+  color: #4b5966;
+  font-weight: 700;
+}

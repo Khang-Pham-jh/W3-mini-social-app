@@ -1,0 +1,204 @@
+.sliderSection {
+  --content-card-padding: 24px;
+
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.kicker {
+  margin: 0 0 6px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: #6a7886;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #14212c;
+}
+
+.viewport:focus-visible {
+  outline: 2px solid #00629d;
+  outline-offset: 3px;
+}
+
+.viewport {
+  margin-inline: calc(var(--content-card-padding) * -1);
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-behavior: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.track {
+  --slider-card-gap: 22px;
+
+  display: flex;
+  gap: var(--slider-card-gap);
+  margin: 0;
+  padding: 0 0 10px var(--content-card-padding);
+  list-style: none;
+}
+
+.track::after {
+  flex: 0 0 calc(var(--content-card-padding) - var(--slider-card-gap));
+  display: block;
+  content: '';
+}
+
+.cardItem {
+  flex: 0 0 min(325px, calc(100% - (var(--content-card-padding) * 2)));
+  min-width: 280px;
+}
+
+.card {
+  height: 100%;
+  background: transparent;
+}
+
+.imageFrame {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #edf4f7;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform 0.35s ease;
+}
+
+.customScrollbar {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  margin: 16px 0 0;
+  border-radius: 999px;
+  background: #d7e1e7;
+  overflow: hidden;
+}
+
+.scrollbarThumb,
+.scrollbarThumbActive {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  min-width: 56px;
+  border-radius: inherit;
+  background: #8ea0ad;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+.scrollbarThumb:hover,
+.scrollbarThumbActive,
+.scrollbarThumbActive:hover {
+  background: #111820;
+}
+
+.scrollbarThumbActive {
+  cursor: pointer;
+}
+
+.scrollbarThumb:focus-visible,
+.scrollbarThumbActive:focus-visible {
+  outline: 2px solid #00629d;
+  outline-offset: 3px;
+}
+
+.card:hover .image {
+  transform: scale(1.03);
+}
+
+.cardBody {
+  display: grid;
+  gap: 4px;
+  padding: 12px 0 0;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #111820;
+  line-height: 1.35;
+}
+
+.cardSubtitle {
+  margin: 0;
+  color: #111820;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.cardDescription {
+  margin: 0;
+  color: #70767d;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.emptyState {
+  padding: 28px 20px;
+  border-radius: 20px;
+  background: #f2f7f9;
+}
+
+.emptyText {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #4b5966;
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .track {
+    --slider-card-gap: 18px;
+  }
+
+  .cardItem {
+    flex-basis: calc((100% - (var(--content-card-padding) * 2) - var(--slider-card-gap)) / 2);
+    min-width: 260px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .track {
+    --slider-card-gap: 14px;
+  }
+
+  .cardItem {
+    flex-basis: calc(100% - (var(--content-card-padding) * 2));
+    min-width: 0;
+  }
+}
